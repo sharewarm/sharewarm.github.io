@@ -1,0 +1,6 @@
+# IDE / 工具缓存目录, 不部署到 GitHub Pages
+.screenshots/
+.trae-html-share-packages/
+
+# macOS
+.DS_Store

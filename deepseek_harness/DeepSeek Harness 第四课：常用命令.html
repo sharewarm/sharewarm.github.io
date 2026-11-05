@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeepSeek Harness（DSH）常用命令速查 · DeepShare</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+<style>
+  :root {
+    --bg: #fdf6ee;
+    --card: #fffaf4;
+    --primary: #e07b39;
+    --primary-deep: #c95d1e;
+    --text: #4a3527;
+    --text-light: #8a6f5c;
+    --border: #f0dcc5;
+    --code-bg: #fbf0e1;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, sans-serif;
+    background: linear-gradient(160deg, #fbe8d3 0%, #fdf9f3 45%, var(--bg) 100%);
+    min-height: 100vh;
+    color: var(--text);
+    line-height: 1.8;
+  }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(253, 246, 238, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar-inner {
+    max-width: 900px; margin: 0 auto;
+    padding: 13px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .back-link {
+    color: var(--primary-deep); text-decoration: none;
+    font-size: 14px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .back-link:hover { text-decoration: underline; }
+  .crumb { font-size: 13px; color: var(--text-light); }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 36px 20px 70px; }
+
+  .markdown-body {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(200, 120, 50, 0.10);
+    padding: 40px 46px;
+  }
+
+  .markdown-body h1 {
+    font-size: 30px; line-height: 1.4;
+    background: linear-gradient(120deg, #c95d1e, #e79a52);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: 14px; margin-bottom: 26px;
+    border-bottom: 2px solid var(--border);
+  }
+  .markdown-body h2 {
+    font-size: 23px; margin: 1.9em 0 0.8em;
+    padding-left: 13px;
+    border-left: 4px solid var(--primary);
+  }
+  .markdown-body h3 { font-size: 18.5px; margin: 1.6em 0 0.6em; color: var(--primary-deep); }
+  .markdown-body h4 { font-size: 16.5px; margin: 1.4em 0 0.5em; }
+
+  .markdown-body p { margin: 0.9em 0; }
+  .markdown-body a { color: var(--primary-deep); text-decoration: none; border-bottom: 1px dashed #d9a06a; }
+  .markdown-body a:hover { border-bottom-style: solid; }
+
+  .markdown-body ul, .markdown-body ol { padding-left: 1.6em; margin: 0.9em 0; }
+  .markdown-body li { margin: 0.4em 0; }
+  .markdown-body li::marker { color: var(--primary); }
+
+  .markdown-body blockquote {
+    background: #fdf1e3;
+    border-left: 4px solid #eeb384;
+    border-radius: 0 10px 10px 0;
+    padding: 12px 18px;
+    margin: 1.2em 0;
+    color: #7a5c44;
+  }
+  .markdown-body blockquote p { margin: 0.3em 0; }
+
+  .markdown-body code {
+    font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+    background: #f9e9d5;
+    color: var(--primary-deep);
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-size: 0.88em;
+  }
+
+  .markdown-body pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    margin: 1.3em 0;
+    line-height: 1.6;
+  }
+  .markdown-body pre code {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    color: #5b4433;
+    font-size: 13.5px;
+  }
+  .markdown-body pre code.hljs { background: transparent; padding: 0; color: inherit; }
+
+  .markdown-body table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1.5em 0;
+    font-size: 14px;
+  }
+  .markdown-body th { background: #f9e9d5; color: var(--primary-deep); }
+  .markdown-body th, .markdown-body td {
+    border: 1px solid var(--border);
+    padding: 8px 13px;
+    text-align: left;
+  }
+  .markdown-body tr:nth-child(even) td { background: #fdf8f1; }
+
+  .markdown-body img { max-width: 100%; border-radius: 10px; }
+  .markdown-body hr { border: none; border-top: 2px dashed var(--border); margin: 2.4em 0; }
+  .markdown-body strong { color: #7a4a22; }
+
+  footer { text-align: center; margin-top: 40px; color: #c2a48c; font-size: 13px; }
+
+  @media (max-width: 600px) {
+    .container { padding: 22px 14px 50px; }
+    .markdown-body { padding: 24px 18px; }
+    .markdown-body h1 { font-size: 24px; }
+    .markdown-body h2 { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+<nav class="topbar">
+  <div class="topbar-inner">
+    <a class="back-link" href="../index.html">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      返回导航
+    </a>
+    <span class="crumb">deepseek_harness</span>
+  </div>
+</nav>
+
+<div class="container">
+  <article class="markdown-body">
+<h1>DeepSeek Harness（DSH）常用命令速查</h1>
+<blockquote>
+<p>本文在原始《DeepSeek Harness（DSH）全面教学指南：斜杠命令与常用 CLI 操作》基础上精简优化，只保留日常使用频率较高的命令。具体参数可能随 DSH 版本变化，执行前可用 <code>dsh --help</code> 核对。</p>
+</blockquote>
+<h2>一、Web 工作台启动</h2>
+<pre><code class="language-bash"># 启动 Web 工作台
+npx @deepseek-ai/dsh web
+
+# 已安装 dsh 时，也可以直接启动
+dsh web
+
+# 指定端口启动
+dsh web --port 8080
+</code></pre>
+<ul>
+<li><code>dsh web</code>：启动 Web 工作台。</li>
+<li><code>--port 8080</code>：将服务端口指定为 <code>8080</code>。</li>
+</ul>
+<h2>二、Headless 无头任务</h2>
+<p>Headless 适合在终端中执行一次性任务，不启动 Web 界面。</p>
+<pre><code class="language-bash"># 执行一次任务
+dsh --profile headless &quot;总结当前项目的目录结构&quot;
+
+# 分析当前 Git 变更
+dsh --profile headless &quot;检查当前工作区的 Git 变更并总结重点&quot;
+
+# 通过标准输入传入任务
+echo &quot;总结当前项目的主要功能&quot; | dsh --profile headless
+</code></pre>
+<p>如果希望将命令输出作为任务内容，可将提示词和输出一起通过管道传入：</p>
+<pre><code class="language-bash">{
+  echo &quot;请总结以下 Git 变更的主要影响：&quot;
+  git diff --stat
+} | dsh --profile headless
+</code></pre>
+<p>常用参数（请先用当前版本的帮助确认支持情况）：</p>
+<pre><code class="language-bash"># 查看 Headless 参数帮助
+dsh --profile headless --help
+
+# JSON 结构化输出
+dsh --profile headless --json &quot;总结当前项目&quot;
+
+# 指定会话 ID（用于支持会话续接的版本）
+dsh --profile headless --session-id my-session &quot;分析当前项目&quot;
+</code></pre>
+<h2>三、查看帮助与检查配置</h2>
+<pre><code class="language-bash"># 查看 CLI 帮助
+dsh --help
+
+# 查看 Web Profile 的帮助
+dsh --profile web --help
+
+# 查看默认配置组合
+dsh --profile web --dump-default-config
+
+# 查看最终组合配置
+dsh --profile web --dump-config
+</code></pre>
+<ul>
+<li><code>--dump-default-config</code>：查看默认配置。</li>
+<li><code>--dump-config</code>：查看组合后的配置，适合排查配置覆盖或插件加载问题。</li>
+</ul>
+<h2>四、使用 YAML 配置补丁</h2>
+<pre><code class="language-bash"># 使用额外 YAML 配置启动
+dsh --profile web --patch ./extra.yml
+
+# 先检查补丁生效后的配置
+dsh --profile web --patch ./extra.yml --dump-config
+</code></pre>
+<p>使用前请确认 <code>extra.yml</code> 路径正确、YAML 语法有效，并检查配置内容是否会改变工具权限或运行行为。</p>
+<h2>五、插件管理</h2>
+<p><code>&lt;plugin-name&gt;</code> 是占位符，执行时要替换为真实、可信且兼容当前版本的插件包名。</p>
+<pre><code class="language-bash"># 为 Web Profile 添加插件
+dsh plugin --profile web add &lt;plugin-name&gt;
+
+# 移除插件
+dsh plugin --profile web remove &lt;plugin-name&gt;
+</code></pre>
+<p>安装第三方插件前，先确认来源、版本及所需权限，不要直接安装不明来源的插件。</p>
+<h2>六、常见问题</h2>
+<h3>1. 找不到 <code>dsh</code> 命令</h3>
+<p>可以先尝试官方 npm 启动方式：</p>
+<pre><code class="language-bash">npx @deepseek-ai/dsh web
+</code></pre>
+<h3>2. Headless 没有读取到项目文件</h3>
+<p>先切换到目标项目目录，再运行命令。DSH 通常会以启动时的当前目录作为工作区。</p>
+<pre><code class="language-bash">cd my-project
+dsh --profile headless &quot;总结当前项目&quot;
+</code></pre>
+<h3>3. 参数提示不支持</h3>
+<p>检查当前版本的帮助：</p>
+<pre><code class="language-bash">dsh --help
+dsh --profile headless --help
+</code></pre>
+<p>不同 Profile 的参数不一定通用。例如 Web 的 <code>--port</code> 不应直接套用到 Headless。</p>
+<h2>七、斜杠命令说明</h2>
+<p><code>/goal</code>、<code>/plan</code>、<code>/feedback</code>、<code>/compact</code>、<code>/permission</code>、<code>/model</code>、<code>/export</code> 等属于交互界面的命令形式，是否可用取决于当前 DSH 版本和加载的 UI 插件。请以实际界面的命令提示或对应版本文档为准，不要将其与 <code>dsh</code> CLI 参数混为一谈。</p>
+<h2>八、常用命令总表</h2>
+<table>
+<thead>
+<tr>
+<th>用途</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>启动 Web</td>
+<td><code>dsh web</code></td>
+</tr>
+<tr>
+<td>指定 Web 端口</td>
+<td><code>dsh web --port 8080</code></td>
+</tr>
+<tr>
+<td>查看帮助</td>
+<td><code>dsh --help</code></td>
+</tr>
+<tr>
+<td>执行 Headless 任务</td>
+<td><code>dsh --profile headless "任务内容"</code></td>
+</tr>
+<tr>
+<td>查看 Headless 参数</td>
+<td><code>dsh --profile headless --help</code></td>
+</tr>
+<tr>
+<td>从标准输入传入任务</td>
+<td><code>echo "任务内容" \| dsh --profile headless</code></td>
+</tr>
+<tr>
+<td>查看默认配置</td>
+<td><code>dsh --profile web --dump-default-config</code></td>
+</tr>
+<tr>
+<td>查看最终配置</td>
+<td><code>dsh --profile web --dump-config</code></td>
+</tr>
+<tr>
+<td>使用配置补丁</td>
+<td><code>dsh --profile web --patch ./extra.yml</code></td>
+</tr>
+<tr>
+<td>添加插件</td>
+<td><code>dsh plugin --profile web add &lt;plugin-name&gt;</code></td>
+</tr>
+<tr>
+<td>移除插件</td>
+<td><code>dsh plugin --profile web remove &lt;plugin-name&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<h2>官方参考资料</h2>
+<ul>
+<li>官方仓库：<a href="https://github.com/deepseek-ai/deepseek-harness">https://github.com/deepseek-ai/deepseek-harness</a></li>
+<li>CLI 中文参考：<a href="https://github.com/deepseek-ai/deepseek-harness/blob/master/apps/cli/reference/README.zh.md">https://github.com/deepseek-ai/deepseek-harness/blob/master/apps/cli/reference/README.zh.md</a></li>
+<li>Headless 文档：<a href="https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/bundle/headless/README.md">https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/bundle/headless/README.md</a></li>
+</ul>
+  </article>
+  <footer>DeepShare · 由 build.py 生成 · 部署于 GitHub Pages</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</body>
+</html>
