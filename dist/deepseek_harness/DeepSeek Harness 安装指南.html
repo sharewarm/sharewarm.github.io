@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeepSeek Harness 安装指南 · DeepShare</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+<style>
+  :root {
+    --bg: #fdf6ee;
+    --card: #fffaf4;
+    --primary: #e07b39;
+    --primary-deep: #c95d1e;
+    --text: #4a3527;
+    --text-light: #8a6f5c;
+    --border: #f0dcc5;
+    --code-bg: #fbf0e1;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, sans-serif;
+    background: linear-gradient(160deg, #fbe8d3 0%, #fdf9f3 45%, var(--bg) 100%);
+    min-height: 100vh;
+    color: var(--text);
+    line-height: 1.8;
+  }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(253, 246, 238, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar-inner {
+    max-width: 900px; margin: 0 auto;
+    padding: 13px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .back-link {
+    color: var(--primary-deep); text-decoration: none;
+    font-size: 14px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .back-link:hover { text-decoration: underline; }
+  .crumb { font-size: 13px; color: var(--text-light); }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 36px 20px 70px; }
+
+  .markdown-body {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(200, 120, 50, 0.10);
+    padding: 40px 46px;
+  }
+
+  .markdown-body h1 {
+    font-size: 30px; line-height: 1.4;
+    background: linear-gradient(120deg, #c95d1e, #e79a52);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: 14px; margin-bottom: 26px;
+    border-bottom: 2px solid var(--border);
+  }
+  .markdown-body h2 {
+    font-size: 23px; margin: 1.9em 0 0.8em;
+    padding-left: 13px;
+    border-left: 4px solid var(--primary);
+  }
+  .markdown-body h3 { font-size: 18.5px; margin: 1.6em 0 0.6em; color: var(--primary-deep); }
+  .markdown-body h4 { font-size: 16.5px; margin: 1.4em 0 0.5em; }
+
+  .markdown-body p { margin: 0.9em 0; }
+  .markdown-body a { color: var(--primary-deep); text-decoration: none; border-bottom: 1px dashed #d9a06a; }
+  .markdown-body a:hover { border-bottom-style: solid; }
+
+  .markdown-body ul, .markdown-body ol { padding-left: 1.6em; margin: 0.9em 0; }
+  .markdown-body li { margin: 0.4em 0; }
+  .markdown-body li::marker { color: var(--primary); }
+
+  .markdown-body blockquote {
+    background: #fdf1e3;
+    border-left: 4px solid #eeb384;
+    border-radius: 0 10px 10px 0;
+    padding: 12px 18px;
+    margin: 1.2em 0;
+    color: #7a5c44;
+  }
+  .markdown-body blockquote p { margin: 0.3em 0; }
+
+  .markdown-body code {
+    font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+    background: #f9e9d5;
+    color: var(--primary-deep);
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-size: 0.88em;
+  }
+
+  .markdown-body pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    margin: 1.3em 0;
+    line-height: 1.6;
+  }
+  .markdown-body pre code {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    color: #5b4433;
+    font-size: 13.5px;
+  }
+  .markdown-body pre code.hljs { background: transparent; padding: 0; color: inherit; }
+
+  .markdown-body table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1.5em 0;
+    font-size: 14px;
+  }
+  .markdown-body th { background: #f9e9d5; color: var(--primary-deep); }
+  .markdown-body th, .markdown-body td {
+    border: 1px solid var(--border);
+    padding: 8px 13px;
+    text-align: left;
+  }
+  .markdown-body tr:nth-child(even) td { background: #fdf8f1; }
+
+  .markdown-body img { max-width: 100%; border-radius: 10px; }
+  .markdown-body hr { border: none; border-top: 2px dashed var(--border); margin: 2.4em 0; }
+  .markdown-body strong { color: #7a4a22; }
+
+  footer { text-align: center; margin-top: 40px; color: #c2a48c; font-size: 13px; }
+
+  @media (max-width: 600px) {
+    .container { padding: 22px 14px 50px; }
+    .markdown-body { padding: 24px 18px; }
+    .markdown-body h1 { font-size: 24px; }
+    .markdown-body h2 { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+<nav class="topbar">
+  <div class="topbar-inner">
+    <a class="back-link" href="../index.html">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      返回导航
+    </a>
+    <span class="crumb">deepseek_harness</span>
+  </div>
+</nav>
+
+<div class="container">
+  <article class="markdown-body">
+<h1>DeepSeek Harness 安装指南</h1>
+<h2>一、DeepSeek Harness 简介</h2>
+<p>DeepSeek Harness（简称 <code>dsh</code>）是由 DeepSeek AI 开发的开源 Agent Harness（智能体框架）。</p>
+<p>它可以帮助 AI 完成：</p>
+<ul>
+<li>文件处理</li>
+<li>数据分析</li>
+<li>代码编写与修改</li>
+<li>代码运行与测试</li>
+<li>信息检索</li>
+<li>长时间任务</li>
+<li>插件扩展</li>
+</ul>
+<p>DeepSeek Harness 目前处于 <strong>Developer Preview（开发者预览）阶段</strong>，功能和接口仍在持续更新，后续可能存在兼容性变化。</p>
+<p>官方目前提供两种主要使用方式：</p>
+<pre><code>DeepSeek Harness
+│
+├── Web 版本
+│
+└── Desktop 桌面版本
+</code></pre>
+<p>官方资料：</p>
+<ul>
+<li>DeepSeek Harness 官网：https://www.deepseek.com/en/harness/</li>
+<li>官方 GitHub：https://github.com/deepseek-ai/deepseek-harness</li>
+<li>官方下载页面：https://www.deepseek.com/en/download/</li>
+</ul>
+<h1>二、Web 版本</h1>
+<h2>2.1 Web 版本是什么？</h2>
+<p>Web 版本通过浏览器访问 Harness 的 Web UI。</p>
+<p>整体结构：</p>
+<pre><code>浏览器
+   ↓
+DeepSeek Harness Web UI
+   ↓
+本机运行的 Harness 服务
+</code></pre>
+<p>Web 版本运行在本机，浏览器主要负责提供操作界面。</p>
+<h1>三、Web 版本环境要求</h1>
+<p>使用 Web 版本需要准备：</p>
+<table>
+<thead>
+<tr>
+<th>环境</th>
+<th>要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>操作系统</td>
+<td>Windows / macOS / Linux</td>
+</tr>
+<tr>
+<td>Node.js</td>
+<td>必需</td>
+</tr>
+<tr>
+<td>npm / npx</td>
+<td>随 Node.js 提供</td>
+</tr>
+<tr>
+<td>浏览器</td>
+<td>必需</td>
+</tr>
+<tr>
+<td>网络连接</td>
+<td>建议保持正常</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>不需要</td>
+</tr>
+<tr>
+<td>Git</td>
+<td>普通安装方式不需要</td>
+</tr>
+<tr>
+<td>pnpm</td>
+<td>普通安装方式不需要</td>
+</tr>
+</tbody>
+</table>
+<p>其中最重要的是：</p>
+<blockquote>
+<p><strong>Node.js</strong></p>
+</blockquote>
+<p>官方提供的 npm 启动方式要求先安装 Node.js，然后执行：</p>
+<pre><code>npx @deepseek-ai/dsh web
+</code></pre>
+<p>官方文档说明，该命令默认会在：</p>
+<pre><code>http://127.0.0.1:3080
+</code></pre>
+<p>启动 Web UI，并在本机启动时自动打开默认浏览器。</p>
+<h1>四、安装 Node.js</h1>
+<h2>4.1 下载 Node.js</h2>
+<p>打开 Node.js 官方网站：</p>
+<p>https://nodejs.org/</p>
+<p>选择 <strong>LTS（长期支持版本）</strong>。</p>
+<p>下载完成后运行安装程序。</p>
+<h2>4.2 Windows 安装</h2>
+<p>Windows 用户下载 Windows 安装程序后：</p>
+<pre><code>双击安装程序
+    ↓
+Next
+    ↓
+接受许可协议
+    ↓
+选择安装目录
+    ↓
+Next
+    ↓
+Install
+    ↓
+Finish
+</code></pre>
+<p>通常保持默认配置即可。</p>
+<h1>五、检查 Node.js 是否安装成功</h1>
+<p>安装完成后打开：</p>
+<pre><code>CMD
+</code></pre>
+<p>输入：</p>
+<pre><code>node -v
+</code></pre>
+<p>如果能够看到版本号，例如：</p>
+<pre><code>v22.x.x
+</code></pre>
+<p>说明 Node.js 已经安装成功。</p>
+<p>继续输入：</p>
+<pre><code>npm -v
+</code></pre>
+<p>如果能够正常显示版本号，说明 npm 可以正常使用。</p>
+<h1>六、启动 DeepSeek Harness Web 版本</h1>
+<p>Node.js 安装完成后，在 CMD 中执行：</p>
+<pre><code>npx @deepseek-ai/dsh web
+</code></pre>
+<p>首次运行时，<code>npx</code> 会获取并运行 DeepSeek Harness 对应的 npm 包。</p>
+<p>启动成功后，默认访问：</p>
+<pre><code>http://127.0.0.1:3080
+</code></pre>
+<p>也可以使用：</p>
+<pre><code>http://localhost:3080
+</code></pre>
+<p>官方默认端口为：</p>
+<pre><code>3080
+</code></pre>
+<h1>七、安装 DeepSeek Harness</h1>
+<h2>7.1 推荐：全局安装</h2>
+<p>长期使用 DeepSeek Harness，推荐先安装一次：</p>
+<pre><code>npm install -g @deepseek-ai/dsh
+</code></pre>
+<p>这个命令的作用是：</p>
+<pre><code>下载 DeepSeek Harness
+        ↓
+安装到 npm 全局目录
+        ↓
+获得 dsh 命令
+</code></pre>
+<p>安装完成以后，可以检查：</p>
+<pre><code>dsh --version
+</code></pre>
+<p>如果能够正常输出版本号，说明 DeepSeek Harness 已经安装成功。</p>
+<h1>八、第一次启动</h1>
+<p>安装完成后执行：</p>
+<pre><code>dsh web
+</code></pre>
+<p>启动 Web 版本。</p>
+<p>默认情况下，Web UI 使用：</p>
+<pre><code>http://127.0.0.1:3080
+</code></pre>
+<p>也可以访问：</p>
+<pre><code>http://localhost:3080
+</code></pre>
+<p>官方 README 中 Web 版本的默认端口为 <code>3080</code>。</p>
+<h1>九、第一次安装与启动的完整流程</h1>
+<p>第一次安装只需要执行：</p>
+<pre><code>npm install -g @deepseek-ai/dsh
+</code></pre>
+<p>然后：</p>
+<pre><code>dsh --version
+</code></pre>
+<p>确认安装成功。</p>
+<p>最后：</p>
+<pre><code>dsh web
+</code></pre>
+<p>启动 Harness。</p>
+<p>完整流程：</p>
+<pre><code>安装 Node.js
+     ↓
+检查 Node.js
+     ↓
+node -v
+     ↓
+检查 npm
+     ↓
+npm -v
+     ↓
+安装 DeepSeek Harness
+     ↓
+npm install -g @deepseek-ai/dsh
+     ↓
+检查 DSH
+     ↓
+dsh --version
+     ↓
+启动
+     ↓
+dsh web
+     ↓
+浏览器访问
+     ↓
+http://127.0.0.1:3080
+</code></pre>
+<h1>十、以后再次启动怎么办？</h1>
+<p>安装完成以后，<strong>不需要再次执行安装命令</strong>。</p>
+<p>也不需要每次重新执行：</p>
+<pre><code>npm install -g @deepseek-ai/dsh
+</code></pre>
+<p>以后直接：</p>
+<pre><code>dsh web
+</code></pre>
+<p>即可。</p>
+<p>因此：</p>
+<h3>第一次</h3>
+<pre><code>npm install -g @deepseek-ai/dsh
+</code></pre>
+<p>然后：</p>
+<pre><code>dsh web
+</code></pre>
+<h3>第二次及以后</h3>
+<p>直接：</p>
+<pre><code>dsh web
+</code></pre>
+<p>即可。</p>
+<h1>十一、为什么 <code>npx @deepseek-ai/dsh web</code> 不作为主要启动方式？</h1>
+<p>官方 README 当前提供的标准 npm 运行方式是：</p>
+<pre><code>npx @deepseek-ai/dsh web
+</code></pre>
+<p>这个方式可以直接运行 Harness，不需要提前执行全局安装。</p>
+<p>但是：</p>
+<pre><code>npx @deepseek-ai/dsh web
+</code></pre>
+<p>更适合：</p>
+<blockquote>
+<p><strong>快速运行 / 快速体验</strong></p>
+</blockquote>
+<p>而长期使用时：</p>
+<pre><code>npm install -g @deepseek-ai/dsh
+</code></pre>
+<p>然后：</p>
+<pre><code>dsh web
+</code></pre>
+<p>更加直观。</p>
+<p>两种方式可以理解为：</p>
+<pre><code>npx
+│
+└── 获取并运行
+</code></pre>
+<p>而：</p>
+<pre><code>npm install -g
+│
+└── 安装一次
+       ↓
+      dsh
+       ↓
+    dsh web
+       ↓
+     启动
+</code></pre>
+<h1>十二、<code>npx</code> 方式什么时候使用？</h1>
+<p>如果只是想快速测试 Harness，可以直接：</p>
+<pre><code>npx @deepseek-ai/dsh web
+</code></pre>
+<p>不需要先进行：</p>
+<pre><code>npm install -g @deepseek-ai/dsh
+</code></pre>
+<p>官方 README 当前就是以这种方式作为 npm 运行示例。</p>
+<h1>十三、Web 版本常见问题</h1>
+<h2>13.1 <code>node</code> 不是内部或外部命令</h2>
+<p>如果出现类似：</p>
+<pre><code>'node' 不是内部或外部命令，也不是可运行的程序
+</code></pre>
+<p>说明：</p>
+<pre><code>Node.js 没有正确安装
+</code></pre>
+<p>或者：</p>
+<pre><code>Node.js 没有加入 PATH
+</code></pre>
+<p>解决方法：</p>
+<ol>
+<li>重新安装 Node.js</li>
+<li>安装完成后重新打开 CMD</li>
+<li>执行：</li>
+</ol>
+<pre><code>node -v
+</code></pre>
+<h1>十四、<code>dsh</code> 不是内部或外部命令</h1>
+<p>如果执行：</p>
+<pre><code>dsh web
+</code></pre>
+<p>出现：</p>
+<pre><code>'dsh' 不是内部或外部命令
+</code></pre>
+<p>首先检查：</p>
+<pre><code>npm install -g @deepseek-ai/dsh
+</code></pre>
+<p>是否安装成功。</p>
+<p>然后：</p>
+<pre><code>dsh --version
+</code></pre>
+<p>如果仍然无法找到 <code>dsh</code>，可以检查 npm 全局安装路径：</p>
+<pre><code>npm prefix -g
+</code></pre>
+<p>Windows 下需要确保该目录对应的 npm 全局可执行目录已经加入系统 <code>PATH</code>。</p>
+<h1>十五、安装过程中长时间没有反应</h1>
+<p>DeepSeek Harness 当前依赖较多，首次安装可能需要较长时间。</p>
+<p>尤其是：</p>
+<pre><code>npx @deepseek-ai/dsh web
+</code></pre>
+<p>首次运行时可能需要下载和解析大量依赖。</p>
+<p>官方仓库近期已经出现 Windows 用户首次 <code>npx</code> 运行长时间没有明显进度的反馈。</p>
+<p>因此：</p>
+<blockquote>
+<p><strong>看到终端长时间没有新的输出，不要立即认为程序一定崩溃。</strong></p>
+</blockquote>
+<p>可以先等待一段时间。</p>
+<h1>十六、Windows + npm 安装异常</h1>
+<p>如果：</p>
+<pre><code>npm install -g @deepseek-ai/dsh
+</code></pre>
+<p>出现依赖解析异常、内存占用持续升高或者长时间卡住，可以先检查：</p>
+<pre><code>node -v
+npm -v
+</code></pre>
+<p>确认 Node.js 是否满足要求。</p>
+<p>当前官方开发文档要求 Node.js：</p>
+<pre><code>22.19+
+</code></pre>
+<p>或者：</p>
+<pre><code>24+
+</code></pre>
+<p>如果仍然出现 npm 依赖解析问题，可以考虑使用官方仓库讨论中提到的替代方式：</p>
+<pre><code>pnpm dlx @deepseek-ai/dsh web
+</code></pre>
+<p>不过这属于备用方案，正常课程环境优先使用：</p>
+<pre><code>npm install -g @deepseek-ai/dsh
+</code></pre>
+<p>然后：</p>
+<pre><code>dsh web
+</code></pre>
+<h1>十七、Web 默认端口</h1>
+<p>DeepSeek Harness Web 默认使用：</p>
+<pre><code>3080
+</code></pre>
+<p>访问：</p>
+<pre><code>http://127.0.0.1:3080
+</code></pre>
+<p>如果 3080 端口已经被其他程序占用，可以指定其他端口：</p>
+<pre><code>dsh web --port 8080
+</code></pre>
+<p>然后访问：</p>
+<pre><code>http://127.0.0.1:8080
+</code></pre>
+<h1>十八、关闭 Web 版本</h1>
+<p>在运行：</p>
+<pre><code>dsh web
+</code></pre>
+<p>的 CMD 窗口中：</p>
+<pre><code>Ctrl + C
+</code></pre>
+<p>即可停止当前 Harness 服务。</p>
+<p>注意：</p>
+<blockquote>
+<p>关闭 CMD 窗口或者按 <code>Ctrl + C</code> 只是停止当前运行的 Harness，并不会卸载已经安装的 DeepSeek Harness。</p>
+</blockquote>
+<p>下次使用时重新执行：</p>
+<pre><code>dsh web
+</code></pre>
+<p>即可。</p>
+<h1>十九、Desktop 桌面版本</h1>
+<p>除了 Web 版本之外，DeepSeek 还提供 Desktop 桌面版本。</p>
+<p>Desktop 不需要通过：</p>
+<pre><code>npm install -g @deepseek-ai/dsh
+</code></pre>
+<p>来进行普通安装。</p>
+<p>直接下载安装对应的桌面应用即可。</p>
+<p>官方目前提供：</p>
+<pre><code>Windows
+</code></pre>
+<p>以及：</p>
+<pre><code>macOS Apple Silicon
+</code></pre>
+<p>版本。</p>
+<h1>二十、Desktop 安装步骤</h1>
+<h2>Windows</h2>
+<p>进入 DeepSeek 官方下载页面：</p>
+<p>https://www.deepseek.com/en/download/</p>
+<p>下载：</p>
+<pre><code>DeepSeek Harness Desktop
+</code></pre>
+<p>Windows 版本。</p>
+<p>然后：</p>
+<pre><code>运行安装程序
+      ↓
+完成安装
+      ↓
+启动 DeepSeek Harness
+</code></pre>
+<h2>macOS</h2>
+<p>官方当前 macOS Desktop 要求：</p>
+<pre><code>Apple Silicon
+macOS 13 或更高版本
+</code></pre>
+<p>安装：</p>
+<pre><code>下载 DMG
+   ↓
+打开 DMG
+   ↓
+将 DeepSeek Harness 拖入 Applications
+   ↓
+启动应用
+</code></pre>
+<h1>二十一、Web 与 Desktop 的区别</h1>
+<table>
+<thead>
+<tr>
+<th>对比项目</th>
+<th>Web</th>
+<th>Desktop</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>使用方式</td>
+<td>浏览器</td>
+<td>桌面应用</td>
+</tr>
+<tr>
+<td>Node.js</td>
+<td>需要</td>
+<td>普通使用不需要单独安装</td>
+</tr>
+<tr>
+<td>npm</td>
+<td>需要</td>
+<td>不需要手动使用</td>
+</tr>
+<tr>
+<td>安装方式</td>
+<td>命令行</td>
+<td>安装程序</td>
+</tr>
+<tr>
+<td>启动方式</td>
+<td><code>dsh web</code></td>
+<td>双击应用</td>
+</tr>
+<tr>
+<td>浏览器</td>
+<td>需要</td>
+<td>应用自身提供界面</td>
+</tr>
+<tr>
+<td>服务器使用</td>
+<td>✅</td>
+<td>不适合</td>
+</tr>
+<tr>
+<td>SSH 使用</td>
+<td>✅</td>
+<td>不适合</td>
+</tr>
+<tr>
+<td>开发调试</td>
+<td>更方便</td>
+<td>相对较少</td>
+</tr>
+<tr>
+<td>普通桌面使用</td>
+<td>可以</td>
+<td>更方便</td>
+</tr>
+</tbody>
+</table>
+<h1>二十二、两种版本的核心区别</h1>
+<h2>Web</h2>
+<pre><code>Node.js
+   ↓
+dsh
+   ↓
+dsh web
+   ↓
+本机 Web 服务
+   ↓
+浏览器
+</code></pre>
+<p>主要特点：</p>
+<blockquote>
+<p><strong>通过命令行管理 Harness。</strong></p>
+</blockquote>
+<h2>Desktop</h2>
+<pre><code>DeepSeek Harness Desktop
+          ↓
+       Harness
+          ↓
+       应用界面
+</code></pre>
+<p>主要特点：</p>
+<blockquote>
+<p><strong>通过桌面应用管理 Harness。</strong></p>
+</blockquote>
+<h1>二十三、如何选择？</h1>
+<h3>选择 Web</h3>
+<p>适合：</p>
+<ul>
+<li>学习 Harness</li>
+<li>开发调试</li>
+<li>命令行操作</li>
+<li>SSH</li>
+<li>服务器</li>
+<li>自动化</li>
+<li>源码研究</li>
+</ul>
+<h3>选择 Desktop</h3>
+<p>适合：</p>
+<ul>
+<li>Windows / macOS 桌面环境</li>
+<li>不希望使用命令行</li>
+<li>希望直接打开应用</li>
+<li>日常使用 Harness</li>
+<li>操作本地文件</li>
+</ul>
+<h1>二十四、Web 版本安装命令汇总</h1>
+<h3>检查 Node.js</h3>
+<pre><code>node -v
+</code></pre>
+<h3>检查 npm</h3>
+<pre><code>npm -v
+</code></pre>
+<h3>全局安装 Harness</h3>
+<pre><code>npm install -g @deepseek-ai/dsh
+</code></pre>
+<h3>检查 Harness</h3>
+<pre><code>dsh --version
+</code></pre>
+<h3>启动 Harness</h3>
+<pre><code>dsh web
+</code></pre>
+<h3>指定端口</h3>
+<pre><code>dsh web --port 8080
+</code></pre>
+<h3>停止 Harness</h3>
+<pre><code>Ctrl + C
+</code></pre>
+<h1>二十五、快速体验方式</h1>
+<p>如果不想进行全局安装，也可以直接运行：</p>
+<pre><code>npx @deepseek-ai/dsh web
+</code></pre>
+<p>默认访问：</p>
+<pre><code>http://127.0.0.1:3080
+</code></pre>
+<p>这种方式适合快速体验。</p>
+<p>长期使用推荐：</p>
+<pre><code>npm install -g @deepseek-ai/dsh
+</code></pre>
+<p>然后：</p>
+<pre><code>dsh web
+</code></pre>
+<h1>二十六、最终安装流程</h1>
+<h2>Web 版本</h2>
+<h3>第一次</h3>
+<pre><code># 1. 检查 Node.js
+node -v
+
+# 2. 检查 npm
+npm -v
+
+# 3. 安装 DeepSeek Harness
+npm install -g @deepseek-ai/dsh
+
+# 4. 检查安装
+dsh --version
+
+# 5. 启动
+dsh web
+</code></pre>
+<h3>以后使用</h3>
+<pre><code>dsh web
+</code></pre>
+<h2>Desktop 版本</h2>
+<pre><code>进入官方下载安装页面
+        ↓
+选择对应操作系统
+        ↓
+下载安装包
+        ↓
+完成安装
+        ↓
+启动 DeepSeek Harness
+</code></pre>
+<h1>二十七、安装完成标准</h1>
+<h3>Web 版本</h3>
+<p>满足以下条件：</p>
+<pre><code>node -v
+</code></pre>
+<p>可以正常显示版本。</p>
+<pre><code>npm -v
+</code></pre>
+<p>可以正常显示版本。</p>
+<pre><code>dsh --version
+</code></pre>
+<p>可以正常显示 Harness 版本。</p>
+<pre><code>dsh web
+</code></pre>
+<p>能够启动 Web UI。</p>
+<p>浏览器能够访问：</p>
+<pre><code>http://127.0.0.1:3080
+</code></pre>
+<p>即表示安装完成。</p>
+<h3>Desktop 版本</h3>
+<p>能够正常：</p>
+<pre><code>启动 DeepSeek Harness
+        ↓
+进入 Harness 界面
+</code></pre>
+<p>即表示安装完成。</p>
+<h1>二十八、官方资料</h1>
+<p>DeepSeek Harness 官方 GitHub：</p>
+<p>https://github.com/deepseek-ai/deepseek-harness/</p>
+<p>DeepSeek Harness 官方网站：</p>
+<p>https://www.deepseek.com/en/harness/</p>
+<p>DeepSeek 官方下载页面：</p>
+<p>https://www.deepseek.com/en/download/</p>
+<p>Node.js 官方网站：</p>
+<p>https://nodejs.org/</p>
+  </article>
+  <footer>DeepShare · 由 build.py 生成 · 部署于 GitHub Pages</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</body>
+</html>

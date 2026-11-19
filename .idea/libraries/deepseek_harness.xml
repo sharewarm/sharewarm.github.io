@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="deepseek_harness">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/.trae-html-share-packages/deepseek_harness/DeepSeek_Harness 第六课：个人博客项目实战.html.zip!/" />
+      <root url="jar://$PROJECT_DIR$/.trae-html-share-packages/deepseek_harness/DeepSeek Harness 第五课：插件系统和自定义插件 (2).html.zip!/" />
+      <root url="jar://$PROJECT_DIR$/.trae-html-share-packages/deepseek_harness/DeepSeek Harness 第四课：常用命令.html.zip!/" />
+      <root url="jar://$PROJECT_DIR$/.trae-html-share-packages/deepseek_harness/DeepSeek Harness 第三节：四种工作模式与三种权限.html.zip!/" />
+      <root url="jar://$PROJECT_DIR$/.trae-html-share-packages/deepseek_harness/DeepSeek Harness 安装指南.html.zip!/" />
+      <root url="jar://$PROJECT_DIR$/.trae-html-share-packages/deepseek_harness/DeepSeek Harness 第二课：工作目录、API Key 与界面熟悉.html.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

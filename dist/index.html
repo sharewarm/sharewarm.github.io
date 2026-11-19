@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeepShare · 信息导航</title>
+<style>
+  :root {
+    --bg: #fdf6ee;
+    --bg-grad-1: #fbe8d3;
+    --bg-grad-2: #fdf9f3;
+    --card: #fffaf4;
+    --primary: #e07b39;
+    --primary-deep: #c95d1e;
+    --primary-soft: #fbe0c8;
+    --accent: #b4531f;
+    --text: #4a3527;
+    --text-light: #8a6f5c;
+    --border: #f0dcc5;
+    --shadow: 0 4px 20px rgba(200, 120, 50, 0.10);
+    --shadow-hover: 0 8px 28px rgba(200, 120, 50, 0.18);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, sans-serif;
+    background: linear-gradient(160deg, var(--bg-grad-1) 0%, var(--bg-grad-2) 45%, var(--bg) 100%);
+    min-height: 100vh;
+    color: var(--text);
+    padding: 48px 20px 80px;
+  }
+
+  .container { max-width: 860px; margin: 0 auto; }
+
+  header { text-align: center; margin-bottom: 44px; }
+
+  .logo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #f5a04f, #e07b39);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    padding: 8px 22px;
+    border-radius: 999px;
+    box-shadow: 0 3px 12px rgba(224, 123, 57, 0.35);
+    margin-bottom: 18px;
+  }
+
+  .logo-badge svg { display: block; }
+
+  h1 {
+    font-size: 34px;
+    font-weight: 700;
+    background: linear-gradient(120deg, #c95d1e, #e79a52);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+  }
+
+  header p { color: var(--text-light); font-size: 15px; }
+
+  /* 模块卡片 */
+  .module {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    margin-bottom: 22px;
+    overflow: hidden;
+    transition: box-shadow 0.25s ease;
+  }
+
+  .module:hover { box-shadow: var(--shadow-hover); }
+
+  .module-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px 26px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s ease;
+  }
+
+  .module-header:hover { background: #fff3e4; }
+
+  .module-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #f8bd7a, #e07b39);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 3px 10px rgba(224, 123, 57, 0.3);
+  }
+
+  .module-info { flex: 1; min-width: 0; }
+
+  .module-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .module-desc {
+    font-size: 13.5px;
+    color: var(--text-light);
+    margin-top: 5px;
+    line-height: 1.5;
+  }
+
+  .file-count {
+    display: inline-block;
+    background: var(--primary-soft);
+    color: var(--primary-deep);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 999px;
+  }
+
+  .arrow {
+    width: 22px;
+    height: 22px;
+    color: var(--primary);
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .module.open .arrow { transform: rotate(90deg); }
+
+  /* 文件列表 */
+  .file-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    border-top: 0 solid transparent;
+  }
+
+  .module.open .file-list { max-height: 1200px; }
+
+  .file-list-inner {
+    padding: 10px 26px 18px;
+    background: linear-gradient(180deg, #fff8ef, #fdf3e6);
+  }
+
+  .file-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    margin: 6px 0;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 14.5px;
+    transition: all 0.18s ease;
+  }
+
+  .file-item:hover {
+    border-color: #eeb384;
+    background: #fffaf4;
+    transform: translateX(4px);
+    box-shadow: 0 3px 12px rgba(224, 123, 57, 0.14);
+  }
+
+  .file-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: #fdf1e3;
+    border: 1px solid #f3ddc2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--primary-deep);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .file-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .file-path {
+    font-size: 12px;
+    color: #c2a48c;
+    flex-shrink: 0;
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 52px;
+    color: #c2a48c;
+    font-size: 13px;
+  }
+
+  /* 移动端适配 */
+  @media (max-width: 600px) {
+    body { padding: 32px 14px 60px; }
+    h1 { font-size: 26px; }
+    .module-header { padding: 18px 18px; gap: 12px; }
+    .module-icon { width: 44px; height: 44px; }
+    .file-path { display: none; }
+    .file-list-inner { padding: 8px 18px 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo-badge">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M2 12h20"></path>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+      </svg>
+      DEEPSHARE
+    </div>
+    <h1>信息导航中心</h1>
+    <p>知识模块索引 · 点击模块展开文件列表</p>
+  </header>
+
+  <main id="modules"></main>
+
+  <footer>DeepShare · 部署于 GitHub Pages</footer>
+</div>
+
+<script>
+/**
+ * 模块配置 —— 后续新增模块只需在数组里追加一项即可
+ * path 使用相对路径（相对于本页面所在目录），可直接部署到 github.io
+ */
+const MODULES = [
+  {
+    name: "DeepSeek Harness",
+    desc: "AI 编程助手系列教程：安装、命令、工作模式与项目实战",
+    files: [
+      { name: "DeepSeek Harness 安装指南", path: "deepseek_harness/DeepSeek Harness 安装指南.html" },
+      { name: "第二课：工作目录、API Key 与界面熟悉", path: "deepseek_harness/DeepSeek Harness 第二课：工作目录、API Key 与界面熟悉.html" },
+      { name: "第三节：四种工作模式与三种权限", path: "deepseek_harness/DeepSeek Harness 第三节：四种工作模式与三种权限.html" },
+      { name: "第四课：常用命令", path: "deepseek_harness/DeepSeek Harness 第四课：常用命令.html" },
+      { name: "第五课：插件系统和自定义插件", path: "deepseek_harness/DeepSeek Harness 第五课：插件系统和自定义插件 (2).html" },
+      { name: "第六课：个人博客项目实战", path: "deepseek_harness/DeepSeek_Harness 第六课：个人博客项目实战.html" }
+    ]
+  }
+  /* 新模块示例（同时在 build.py 的 DIRS 中追加目录，链接指向生成的 .html）：
+  ,{
+    name: "模块名称",
+    desc: "模块简介",
+    files: [
+      { name: "文件显示名", path: "folder/文件名.html" }
+    ]
+  }
+  */
+];
+
+function esc(s) {
+  const d = document.createElement("div");
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+const container = document.getElementById("modules");
+
+MODULES.forEach(mod => {
+  const el = document.createElement("section");
+  el.className = "module";
+  el.innerHTML = `
+    <div class="module-header" role="button" tabindex="0" aria-expanded="false">
+      <div class="module-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+      </div>
+      <div class="module-info">
+        <div class="module-title">${esc(mod.name)} <span class="file-count">${mod.files.length} 篇</span></div>
+        <div class="module-desc">${esc(mod.desc || "")}</div>
+      </div>
+      <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </div>
+    <div class="file-list">
+      <div class="file-list-inner">
+        ${mod.files.map(f => `
+          <a class="file-item" href="${esc(f.path)}">
+            <span class="file-icon">MD</span>
+            <span class="file-name">${esc(f.name)}</span>
+            <span class="file-path">${esc(f.path)}</span>
+          </a>`).join("")}
+      </div>
+    </div>
+  `;
+
+  const header = el.querySelector(".module-header");
+  const toggle = () => {
+    el.classList.toggle("open");
+    header.setAttribute("aria-expanded", el.classList.contains("open"));
+  };
+  header.addEventListener("click", toggle);
+  header.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+  });
+
+  container.appendChild(el);
+});
+</script>
+</body>
+</html>

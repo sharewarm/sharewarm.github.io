@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeepSeek Harness 第三节：四种工作模式与三种权限 · DeepShare</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+<style>
+  :root {
+    --bg: #fdf6ee;
+    --card: #fffaf4;
+    --primary: #e07b39;
+    --primary-deep: #c95d1e;
+    --text: #4a3527;
+    --text-light: #8a6f5c;
+    --border: #f0dcc5;
+    --code-bg: #fbf0e1;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, sans-serif;
+    background: linear-gradient(160deg, #fbe8d3 0%, #fdf9f3 45%, var(--bg) 100%);
+    min-height: 100vh;
+    color: var(--text);
+    line-height: 1.8;
+  }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(253, 246, 238, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar-inner {
+    max-width: 900px; margin: 0 auto;
+    padding: 13px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .back-link {
+    color: var(--primary-deep); text-decoration: none;
+    font-size: 14px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .back-link:hover { text-decoration: underline; }
+  .crumb { font-size: 13px; color: var(--text-light); }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 36px 20px 70px; }
+
+  .markdown-body {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(200, 120, 50, 0.10);
+    padding: 40px 46px;
+  }
+
+  .markdown-body h1 {
+    font-size: 30px; line-height: 1.4;
+    background: linear-gradient(120deg, #c95d1e, #e79a52);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: 14px; margin-bottom: 26px;
+    border-bottom: 2px solid var(--border);
+  }
+  .markdown-body h2 {
+    font-size: 23px; margin: 1.9em 0 0.8em;
+    padding-left: 13px;
+    border-left: 4px solid var(--primary);
+  }
+  .markdown-body h3 { font-size: 18.5px; margin: 1.6em 0 0.6em; color: var(--primary-deep); }
+  .markdown-body h4 { font-size: 16.5px; margin: 1.4em 0 0.5em; }
+
+  .markdown-body p { margin: 0.9em 0; }
+  .markdown-body a { color: var(--primary-deep); text-decoration: none; border-bottom: 1px dashed #d9a06a; }
+  .markdown-body a:hover { border-bottom-style: solid; }
+
+  .markdown-body ul, .markdown-body ol { padding-left: 1.6em; margin: 0.9em 0; }
+  .markdown-body li { margin: 0.4em 0; }
+  .markdown-body li::marker { color: var(--primary); }
+
+  .markdown-body blockquote {
+    background: #fdf1e3;
+    border-left: 4px solid #eeb384;
+    border-radius: 0 10px 10px 0;
+    padding: 12px 18px;
+    margin: 1.2em 0;
+    color: #7a5c44;
+  }
+  .markdown-body blockquote p { margin: 0.3em 0; }
+
+  .markdown-body code {
+    font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+    background: #f9e9d5;
+    color: var(--primary-deep);
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-size: 0.88em;
+  }
+
+  .markdown-body pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    margin: 1.3em 0;
+    line-height: 1.6;
+  }
+  .markdown-body pre code {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    color: #5b4433;
+    font-size: 13.5px;
+  }
+  .markdown-body pre code.hljs { background: transparent; padding: 0; color: inherit; }
+
+  .markdown-body table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1.5em 0;
+    font-size: 14px;
+  }
+  .markdown-body th { background: #f9e9d5; color: var(--primary-deep); }
+  .markdown-body th, .markdown-body td {
+    border: 1px solid var(--border);
+    padding: 8px 13px;
+    text-align: left;
+  }
+  .markdown-body tr:nth-child(even) td { background: #fdf8f1; }
+
+  .markdown-body img { max-width: 100%; border-radius: 10px; }
+  .markdown-body hr { border: none; border-top: 2px dashed var(--border); margin: 2.4em 0; }
+  .markdown-body strong { color: #7a4a22; }
+
+  footer { text-align: center; margin-top: 40px; color: #c2a48c; font-size: 13px; }
+
+  @media (max-width: 600px) {
+    .container { padding: 22px 14px 50px; }
+    .markdown-body { padding: 24px 18px; }
+    .markdown-body h1 { font-size: 24px; }
+    .markdown-body h2 { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+<nav class="topbar">
+  <div class="topbar-inner">
+    <a class="back-link" href="../index.html">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      返回导航
+    </a>
+    <span class="crumb">deepseek_harness</span>
+  </div>
+</nav>
+
+<div class="container">
+  <article class="markdown-body">
+<h1>DeepSeek Harness 第三节：四种工作模式与三种权限</h1>
+<p>上一节我们已经完成了：</p>
+<ul>
+<li>DeepSeek Harness 安装</li>
+<li>工作目录配置</li>
+<li>API Key 配置</li>
+<li>Web 界面基本认识</li>
+</ul>
+<p>这一节开始了解 DeepSeek Harness 最重要的两个概念：</p>
+<blockquote>
+<p><strong>工作模式（Agent Preset）和权限（Permission）</strong></p>
+</blockquote>
+<p>两者不是一个东西。</p>
+<p>可以先记住：</p>
+<pre><code>工作模式
+→ 决定 Agent “有什么能力、怎么工作”
+
+权限
+→ 决定 Agent “最多能操作到什么程度”
+</code></pre>
+<h1>一、什么是工作模式？</h1>
+<p>DeepSeek Harness 中的工作模式，本质上是一个 <strong>Agent Preset（Agent 预设）</strong>。</p>
+<p>不同模式会给 Agent 配置不同的：</p>
+<ul>
+<li>工具</li>
+<li>提示词</li>
+<li>工作能力</li>
+<li>执行方式</li>
+<li>其他插件能力</li>
+</ul>
+<p>所以：</p>
+<blockquote>
+<p><strong>工作模式决定 Agent 是“以什么方式工作”。</strong></p>
+</blockquote>
+<p>当前官方 Web 版本提供四种内置 Agent Preset：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>英文</th>
+<th>核心特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>标准模式</td>
+<td>Standard</td>
+<td>日常开发的默认模式</td>
+</tr>
+<tr>
+<td>PTC 模式</td>
+<td>PTC</td>
+<td>使用程序化工具调用能力</td>
+</tr>
+<tr>
+<td>极简模式</td>
+<td>Minimal</td>
+<td>尽可能精简 Agent 能力</td>
+</tr>
+<tr>
+<td>创造模式</td>
+<td>Creator</td>
+<td>用于创建和设计 Agent Preset</td>
+</tr>
+</tbody>
+</table>
+<p>官方 Web App 当前随发行版提供 <code>standard</code>、<code>ptc</code>、<code>minimal</code>、<code>cordis</code> 四个 preset，其中 <code>cordis</code> 对应 Creator 模式。</p>
+<h1>二、Standard：标准模式</h1>
+<h2>1. 什么是标准模式？</h2>
+<p>Standard 是最适合日常使用的模式。</p>
+<p>可以把它理解成：</p>
+<blockquote>
+<p><strong>一个能力比较完整、适合正常开发工作的 Agent。</strong></p>
+</blockquote>
+<p>例如：</p>
+<pre><code>你：
+帮我检查这个 Python 项目，
+找到登录功能中的 Bug 并修复。
+
+Agent：
+读取项目
+   ↓
+分析代码
+   ↓
+定位 Bug
+   ↓
+修改代码
+   ↓
+运行测试
+   ↓
+反馈结果
+</code></pre>
+<p>这类正常的软件开发任务，就是 Standard 模式最典型的使用场景。</p>
+<h2>2. Standard 适合做什么？</h2>
+<p>例如：</p>
+<h3>代码开发</h3>
+<pre><code>帮我实现一个 Python 爬虫。
+</code></pre>
+<h3>Bug 修复</h3>
+<pre><code>帮我检查这个程序为什么运行报错。
+</code></pre>
+<h3>项目分析</h3>
+<pre><code>分析这个项目的目录结构，
+告诉我程序从哪里开始运行。
+</code></pre>
+<h3>功能修改</h3>
+<pre><code>给这个项目增加一个用户登录功能。
+</code></pre>
+<h3>文件处理</h3>
+<pre><code>检查项目中的 Markdown 文档，
+统一标题格式。
+</code></pre>
+<p>这些都可以直接使用：</p>
+<pre><code>Standard
+</code></pre>
+<h1>三、PTC 模式</h1>
+<h2>1. PTC 是什么？</h2>
+<p>PTC 可以理解为：</p>
+<blockquote>
+<p><strong>Programmatic Tool Calling</strong></p>
+</blockquote>
+<p>也就是：</p>
+<blockquote>
+<p><strong>程序化工具调用。</strong></p>
+</blockquote>
+<p>普通情况下，Agent 使用工具时，可以理解成：</p>
+<pre><code>Agent
+ ↓
+调用工具
+ ↓
+得到结果
+ ↓
+继续思考
+ ↓
+再次调用工具
+</code></pre>
+<p>例如需要处理多个文件：</p>
+<pre><code>读取 A.py
+    ↓
+读取 B.py
+    ↓
+读取 C.py
+    ↓
+修改 A.py
+    ↓
+修改 B.py
+</code></pre>
+<p>Agent 可能需要进行多次工具调用。</p>
+<p>PTC 模式的核心思路是：</p>
+<blockquote>
+<p><strong>让 Agent 能够通过程序化方式组织工具调用。</strong></p>
+</blockquote>
+<p>官方实现中，PTC 是一个独立的 Agent Preset，并提供程序化工具调用相关能力。官方 CLI 文档也说明 <code>DSH_TOOLS_MODE</code> 可以选择 <code>native</code>、<code>ptc</code> 或 <code>both</code>。</p>
+<h2>2. 为什么需要 PTC？</h2>
+<p>假设现在有：</p>
+<pre><code>100 个文件
+</code></pre>
+<p>我们需要：</p>
+<pre><code>找出所有使用旧 API 的文件
+        ↓
+统计
+        ↓
+筛选
+        ↓
+修改
+        ↓
+检查修改结果
+</code></pre>
+<p>如果每一个文件都单独调用工具：</p>
+<pre><code>调用工具
+调用工具
+调用工具
+调用工具
+……
+</code></pre>
+<p>效率可能比较低。</p>
+<p>PTC 的思路是：</p>
+<pre><code>Agent
+ ↓
+编写一段程序
+ ↓
+程序批量调用工具
+ ↓
+统一处理结果
+ ↓
+返回给 Agent
+</code></pre>
+<p>可以简单理解为：</p>
+<pre><code>普通工具调用：
+
+Agent → 工具 → Agent → 工具 → Agent
+
+
+PTC：
+
+Agent → 程序 → 多次工具调用 → 结果 → Agent
+</code></pre>
+<p>因此 PTC 更适合：</p>
+<ul>
+<li>批量处理</li>
+<li>多文件操作</li>
+<li>复杂工具组合</li>
+<li>需要大量工具调用的任务</li>
+</ul>
+<h1>四、Minimal：极简模式</h1>
+<h2>1. 什么是极简模式？</h2>
+<p>Minimal 的核心思想非常简单：</p>
+<blockquote>
+<p><strong>尽可能少地给 Agent 加载额外能力。</strong></p>
+</blockquote>
+<p>官方 CLI 文档说明，内置 <code>minimal</code> preset 会保持非常精简的 Agent 组成；除基础的 Agent 能力外，其他提示词段和面向模型的插件不会被加入。</p>
+<p>可以把它理解成：</p>
+<pre><code>Standard
+
+Agent
+├── 基础能力
+├── 工具
+├── 提示词
+├── 各种辅助能力
+└── 其他插件
+</code></pre>
+<p>而 Minimal 更接近：</p>
+<pre><code>Minimal
+
+Agent
+└── 尽量保留核心能力
+</code></pre>
+<h2>2. 为什么需要极简模式？</h2>
+<p>不是所有任务都需要一个“全副武装”的 Agent。</p>
+<p>例如：</p>
+<pre><code>你好
+</code></pre>
+<p>或者：</p>
+<pre><code>解释一下 Python 中的装饰器。
+</code></pre>
+<p>如果只是简单问答：</p>
+<pre><code>完整开发工具
++
+大量插件
++
+复杂工作流
+</code></pre>
+<p>并不一定有必要。</p>
+<p>这时候 Minimal 可以减少不必要的能力和上下文。</p>
+<h2>3. Minimal 适合什么？</h2>
+<p>例如：</p>
+<pre><code>解释一下 Python 的闭包。
+帮我解释这段代码。
+比较 list 和 tuple 的区别。
+简单分析一下这个函数。
+</code></pre>
+<p>因此可以简单记忆：</p>
+<blockquote>
+<p><strong>Minimal = 少一点工具，少一点复杂度，专注核心任务。</strong></p>
+</blockquote>
+<h1>五、Creator：创造模式</h1>
+<h2>1. Creator 是干什么的？</h2>
+<p>Creator 是四种模式中非常特殊的一种。</p>
+<p>它不是主要用来：</p>
+<pre><code>写 Python
+修 Bug
+改项目
+</code></pre>
+<p>而是用于：</p>
+<blockquote>
+<p><strong>创建和设计 Agent Preset。</strong></p>
+</blockquote>
+<p>也就是说：</p>
+<p>普通模式：</p>
+<pre><code>我让 Agent 帮我完成任务
+</code></pre>
+<p>Creator：</p>
+<pre><code>我让 Agent 帮我设计一个 Agent
+</code></pre>
+<h1>六、为什么需要 Creator？</h1>
+<p>假设你经常需要做：</p>
+<pre><code>Python 代码审查
+</code></pre>
+<p>你可能希望有一个专门的 Agent：</p>
+<pre><code>Python Code Review Agent
+</code></pre>
+<p>它应该：</p>
+<pre><code>读取 Python 文件
+       ↓
+检查代码规范
+       ↓
+检查潜在 Bug
+       ↓
+检查异常处理
+       ↓
+输出代码审查报告
+</code></pre>
+<p>如果每次都重新告诉 Agent：</p>
+<pre><code>你要检查什么
+你应该怎么检查
+你可以使用什么工具
+你应该输出什么格式
+</code></pre>
+<p>就比较麻烦。</p>
+<p>Creator 模式的作用就是帮助你：</p>
+<pre><code>设计 Agent
+    ↓
+选择需要的能力
+    ↓
+组合插件
+    ↓
+形成新的 Preset
+</code></pre>
+<p>官方 Agent Preset 页面也明确说明，Creator 模式用于创建或覆盖 Agent Preset，并通过 <code>cordis</code> preset 启动 Creator 模式任务。</p>
+<h1>七、四种工作模式怎么选？</h1>
+<p>可以先记住下面这张表：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>核心思想</th>
+<th>适合场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Standard</strong></td>
+<td>正常干活</td>
+<td>日常开发、代码修改、项目分析</td>
+</tr>
+<tr>
+<td><strong>PTC</strong></td>
+<td>程序化调用工具</td>
+<td>批量处理、复杂工具调用</td>
+</tr>
+<tr>
+<td><strong>Minimal</strong></td>
+<td>尽量精简</td>
+<td>简单任务、轻量问答</td>
+</tr>
+<tr>
+<td><strong>Creator</strong></td>
+<td>创建 Agent</td>
+<td>设计自己的 Agent Preset</td>
+</tr>
+</tbody>
+</table>
+<p>最简单的记忆方式：</p>
+<pre><code>Standard
+→ 正常工作
+
+PTC
+→ 批量、程序化地调用工具
+
+Minimal
+→ 少一点能力，简单处理
+
+Creator
+→ 创建新的 Agent
+</code></pre>
+<h1>八、工作模式 ≠ 权限</h1>
+<p>这是本节最重要的知识点。</p>
+<p>例如：</p>
+<pre><code>Standard
+</code></pre>
+<p>是工作模式。</p>
+<p>而：</p>
+<pre><code>workspace-write
+</code></pre>
+<p>是权限。</p>
+<p>它们完全不是一个维度。</p>
+<p>可以想象成一个员工：</p>
+<pre><code>工作模式
+    ↓
+这个员工会什么？
+怎么工作？
+有什么工具？
+</code></pre>
+<p>而：</p>
+<pre><code>权限
+    ↓
+这个员工能进入哪些房间？
+能不能修改里面的东西？
+</code></pre>
+<p>所以：</p>
+<pre><code>Standard + read-only
+</code></pre>
+<p>是完全可能的。</p>
+<p>也就是说：</p>
+<blockquote>
+<p><strong>Agent 可以拥有完整的工作能力，但文件操作权限受到限制。</strong></p>
+</blockquote>
+<p>同样：</p>
+<pre><code>Minimal + workspace-write
+</code></pre>
+<p>也可以存在。</p>
+<h1>九、三种权限</h1>
+<p>DeepSeek Harness 的底层文件沙箱主要有三种权限模式：</p>
+<pre><code>read-only
+workspace-write
+danger-full-access
+</code></pre>
+<p>官方沙箱文档定义了这三种文件效果模式。</p>
+<h2>1. read-only</h2>
+<p>字面意思：</p>
+<blockquote>
+<p><strong>只读</strong></p>
+</blockquote>
+<p>Agent 可以：</p>
+<pre><code>读取文件
+分析代码
+查看项目
+</code></pre>
+<p>但不能通过文件沙箱直接写入文件。</p>
+<p>可以理解成：</p>
+<pre><code>┌───────────────┐
+│   项目文件     │
+│               │
+│   👀 Agent    │
+│               │
+│   ❌ 修改      │
+└───────────────┘
+</code></pre>
+<p>适合：</p>
+<pre><code>代码审查
+项目分析
+问题诊断
+学习项目结构
+</code></pre>
+<h1>十、workspace-write</h1>
+<p>意思是：</p>
+<blockquote>
+<p><strong>允许 Agent 修改当前 Workspace 范围内的文件。</strong></p>
+</blockquote>
+<p>例如：</p>
+<pre><code>D:\AI_Project
+</code></pre>
+<p>是当前 Workspace。</p>
+<p>那么 Agent 可以在允许的工作区范围内：</p>
+<pre><code>读取文件
+创建文件
+修改文件
+</code></pre>
+<p>可以理解成：</p>
+<pre><code>Workspace
+┌──────────────────────┐
+│ main.py       ✅      │
+│ test.py       ✅      │
+│ config.py     ✅      │
+│ README.md     ✅      │
+└──────────────────────┘
+
+Workspace 外
+┌──────────────────────┐
+│ other_project  ❌     │
+└──────────────────────┘
+</code></pre>
+<p>这是日常开发中最常见的权限模式。</p>
+<p>官方当前基础配置也是以 <code>workspace-write</code> 作为新会话常见的默认权限基础。</p>
+<h1>十一、danger-full-access</h1>
+<p>这个权限可以理解为：</p>
+<blockquote>
+<p><strong>不再受到文件沙箱的限制。</strong></p>
+</blockquote>
+<p>也就是：</p>
+<pre><code>read-only
+       ↓
+workspace-write
+       ↓
+danger-full-access
+</code></pre>
+<p>权限范围逐渐扩大。</p>
+<p>其中：</p>
+<pre><code>danger-full-access
+</code></pre>
+<p>表示取消文件沙箱限制。官方文档将其定义为不进行文件隔离限制的模式。</p>
+<p>因此它的风险也最高。</p>
+<p>一般情况下：</p>
+<pre><code>能用 workspace-write
+就不要使用 danger-full-access
+</code></pre>
+<h1>十二、三种权限的区别</h1>
+<table>
+<thead>
+<tr>
+<th>权限</th>
+<th>读取</th>
+<th>修改 Workspace</th>
+<th>突破文件沙箱</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>read-only</code></td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><code>workspace-write</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><code>danger-full-access</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p>可以记成：</p>
+<pre><code>read-only
+→ 只能看
+
+workspace-write
+→ 能看 + 能改当前工作区
+
+danger-full-access
+→ 不受文件沙箱限制
+</code></pre>
+<h1>十三、工作模式和权限组合起来</h1>
+<p>真正使用 Harness 时，是两个维度共同决定 Agent 的行为。</p>
+<p>例如：</p>
+<h3>组合一</h3>
+<pre><code>Standard
++
+read-only
+</code></pre>
+<p>含义：</p>
+<blockquote>
+<p>使用标准 Agent，但只能查看和分析，不能直接修改文件。</p>
+</blockquote>
+<h3>组合二</h3>
+<pre><code>Standard
++
+workspace-write
+</code></pre>
+<p>含义：</p>
+<blockquote>
+<p>使用标准 Agent，并允许它在当前 Workspace 中进行开发。</p>
+</blockquote>
+<p>这通常是日常开发比较常见的组合。</p>
+<h3>组合三</h3>
+<pre><code>PTC
++
+workspace-write
+</code></pre>
+<p>含义：</p>
+<blockquote>
+<p>使用 PTC 的工具调用方式，同时允许修改工作区。</p>
+</blockquote>
+<p>适合比较复杂、批量性的开发任务。</p>
+<h3>组合四</h3>
+<pre><code>Minimal
++
+read-only
+</code></pre>
+<p>含义：</p>
+<blockquote>
+<p>使用精简 Agent，同时限制为只读。</p>
+</blockquote>
+<p>适合：</p>
+<pre><code>看看项目
+分析代码
+回答问题
+</code></pre>
+<p>而不希望 Agent 修改任何东西。</p>
+<h1>十四、最终建立一个完整概念</h1>
+<p>现在可以把 DeepSeek Harness 理解成：</p>
+<pre><code>                    DeepSeek Harness
+                           │
+              ┌────────────┴────────────┐
+              │                         │
+          工作模式                    权限
+        Agent Preset              Permission
+              │                         │
+      ┌───────┼────────┐        ┌───────┼────────┐
+      │       │        │        │       │        │
+   Standard  PTC    Minimal  read-only workspace danger
+                         │               write    full
+                         │
+                      Creator
+</code></pre>
+<p>两边解决的是不同问题：</p>
+<pre><code>工作模式
+↓
+“Agent 怎么工作？”
+
+权限
+↓
+“Agent 最多能操作什么？”
+</code></pre>
+<h1>十五、最重要的记忆</h1>
+<p>如果只记住一句话：</p>
+<blockquote>
+<p><strong>工作模式决定 Agent 的能力和工作方式，权限决定 Agent 的操作边界。</strong></p>
+</blockquote>
+<p>四种工作模式：</p>
+<pre><code>Standard
+PTC
+Minimal
+Creator
+</code></pre>
+<p>三种权限：</p>
+<pre><code>read-only
+workspace-write
+danger-full-access
+</code></pre>
+<p>不要把它们混在一起。</p>
+<p>例如：</p>
+<pre><code>Standard ≠ workspace-write
+PTC ≠ danger-full-access
+Minimal ≠ read-only
+Creator ≠ full-access
+</code></pre>
+<p>它们属于两个完全不同的概念。</p>
+<h2>官方资料</h2>
+<ul>
+<li><a href="https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/client/ui-agent-preset/README.md">DeepSeek Harness Agent Preset 官方文档</a></li>
+<li><a href="https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/bundle/web-app/README.zh.md">DeepSeek Harness Web App 官方文档</a></li>
+<li><a href="https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/shell/bash-sandbox/README.md">DeepSeek Harness 沙箱权限官方文档</a></li>
+</ul>
+  </article>
+  <footer>DeepShare · 由 build.py 生成 · 部署于 GitHub Pages</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</body>
+</html>
