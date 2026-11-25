@@ -4,3 +4,6 @@
 
 # macOS
 .DS_Store
+
+# idea 缓存
+.idea/
