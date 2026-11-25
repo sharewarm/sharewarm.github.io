@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>青岛3天周末游 · 旅行攻略（2026.11.28-11.30）</title>
+<meta name="description" content="青岛3天周末旅行攻略：天气详情、每日3景点行程、景区间打车方案、高德地图自定义路线图与旅行小贴士。">
+<style>
+  :root{
+    --bg:#f5f8fb;
+    --card:#ffffff;
+    --ink:#1d2b3a;
+    --muted:#66788c;
+    --line:#e6edf4;
+    --primary:#0f6bb8;
+    --day1:#2f80ed;
+    --day2:#f2994a;
+    --day3:#27ae60;
+    --radius:18px;
+    --shadow:0 8px 28px rgba(17,60,105,.08);
+    --maxw:1080px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  section{scroll-margin-top:76px}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+
+  /* ---------- 顶部导航 ---------- */
+  .topnav{
+    position:sticky;top:0;z-index:100;
+    background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(14px);
+    -webkit-backdrop-filter:saturate(180%) blur(14px);
+    border-bottom:1px solid rgba(230,237,244,.9);
+  }
+  .topnav .wrap{display:flex;align-items:center;justify-content:space-between;height:56px}
+  .nav-title{font-weight:700;font-size:16px;letter-spacing:.5px}
+  .nav-title i{font-style:normal;color:var(--primary)}
+  .nav-links{display:flex;gap:4px}
+  .nav-links a{
+    color:var(--muted);text-decoration:none;font-size:14px;padding:6px 12px;border-radius:999px;
+    transition:all .2s;
+  }
+  .nav-links a:hover{color:var(--primary);background:rgba(15,107,184,.08)}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;min-height:480px;display:flex;align-items:center;
+    background:
+      linear-gradient(160deg,rgba(6,34,64,.62) 0%,rgba(10,52,94,.46) 45%,rgba(8,40,74,.66) 100%),
+      url("https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Qingdao%20coastal%20city%20panorama%2C%20red%20tile%20roofs%2C%20blue%20sea%2C%20European%20style%20buildings%2C%20seagulls%20flying%2C%20sunny%20winter%20day%2C%20travel%20photography&image_size=landscape_16_9") center 38%/cover no-repeat;
+  }
+  .hero .wrap{width:100%}
+  .hero-kicker{
+    display:inline-block;font-size:13px;letter-spacing:2px;color:#eaf4ff;
+    border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 14px;margin-bottom:18px;
+    background:rgba(255,255,255,.1);
+  }
+  .hero h1{color:#fff;font-size:clamp(30px,5.5vw,50px);font-weight:800;letter-spacing:1px;line-height:1.25}
+  .hero-dates{color:rgba(255,255,255,.92);font-size:17px;margin-top:14px;letter-spacing:.5px}
+  .hero-tags{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+  .hero-tags span{
+    font-size:13px;color:#fff;background:rgba(255,255,255,.16);
+    border:1px solid rgba(255,255,255,.22);padding:6px 14px;border-radius:999px;backdrop-filter:blur(4px);
+  }
+
+  /* ---------- 通用标题 ---------- */
+  .sec{padding:64px 0 8px}
+  .sec-head{margin-bottom:28px}
+  .sec-head h2{font-size:26px;font-weight:800;letter-spacing:1px;display:flex;align-items:center;gap:12px}
+  .sec-head h2::before{content:"";width:6px;height:24px;border-radius:3px;background:linear-gradient(180deg,#37a3f5,#0f6bb8)}
+  .sec-head p{color:var(--muted);font-size:14px;margin-top:8px}
+
+  /* ---------- 天气卡片 ---------- */
+  .weather-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .weather-card{
+    background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:22px 22px 18px;position:relative;overflow:hidden;border:1px solid var(--line);
+  }
+  .weather-card::before{content:"";position:absolute;left:0;top:0;right:0;height:5px;background:var(--day, var(--primary))}
+  .wc-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+  .wc-date{font-size:18px;font-weight:800}
+  .wc-daytag{font-size:12px;font-weight:600;color:#fff;background:var(--day,var(--primary));padding:3px 10px;border-radius:999px}
+  .wc-main{display:flex;align-items:center;gap:12px;margin:8px 0 4px}
+  .wc-icon{font-size:44px;line-height:1}
+  .wc-temp{font-size:24px;font-weight:800;letter-spacing:.5px}
+  .wc-temp small{font-size:14px;color:var(--muted);font-weight:500}
+  .wc-desc{font-size:15px;color:var(--primary);font-weight:600}
+  .wc-details{list-style:none;margin-top:12px;border-top:1px dashed var(--line);padding-top:12px;display:grid;gap:6px}
+  .wc-details li{font-size:13.5px;color:var(--muted)}
+  .wc-tip{
+    margin-top:14px;font-size:13px;color:#8a5a00;background:#fff8e8;border:1px solid #ffe9b8;
+    border-radius:12px;padding:9px 12px;line-height:1.55;
+  }
+  .weather-banner{
+    margin-top:18px;display:flex;gap:12px;align-items:flex-start;
+    background:linear-gradient(135deg,#eaf4fe,#f4faff);border:1px solid #cfe6fb;border-radius:16px;padding:14px 18px;
+  }
+  .weather-banner .ic{font-size:22px}
+  .weather-banner p{font-size:13.5px;color:#31536e}
+  .weather-banner b{color:var(--primary)}
+
+  /* ---------- 行程 ---------- */
+  .day-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+  .day-tab{
+    border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;
+    border-radius:999px;padding:9px 18px;font-size:14px;font-weight:600;
+    display:flex;align-items:center;gap:8px;transition:all .2s;box-shadow:0 2px 10px rgba(17,60,105,.05);
+  }
+  .day-tab .dot{width:10px;height:10px;border-radius:50%;background:var(--day)}
+  .day-tab.active{background:var(--day);border-color:var(--day);color:#fff;box-shadow:0 6px 18px rgba(17,60,105,.18)}
+  .day-plan{display:none}
+  .day-plan.active{display:block;animation:fadein .35s ease}
+  @keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .day-header{
+    display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:18px 22px;margin-bottom:22px;
+  }
+  .day-badge{
+    flex-shrink:0;width:64px;height:64px;border-radius:20px;background:var(--day);color:#fff;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;box-shadow:0 8px 18px rgba(17,60,105,.18);
+  }
+  .day-badge small{font-size:11px;font-weight:600;opacity:.9;letter-spacing:1px}
+  .day-badge span{font-size:20px;line-height:1.1}
+  .day-title{flex:1;min-width:220px}
+  .day-title h3{font-size:21px;font-weight:800;letter-spacing:.5px}
+  .day-title p{color:var(--muted);font-size:13.5px;margin-top:3px}
+  .day-route-btn{
+    text-decoration:none;color:#fff;background:#00b96b;font-size:13.5px;font-weight:700;
+    padding:10px 16px;border-radius:12px;white-space:nowrap;display:inline-flex;align-items:center;gap:7px;
+    box-shadow:0 6px 16px rgba(0,185,107,.32);transition:transform .15s;
+  }
+  .day-route-btn:hover{transform:translateY(-1px)}
+  .day-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .day-chips span{font-size:12.5px;color:var(--muted);background:#eef4fa;border-radius:999px;padding:5px 12px}
+  .day-chips b{color:var(--primary)}
+
+  .day-flow{display:grid;grid-template-columns:1fr 92px 1fr 92px 1fr;align-items:stretch}
+  .spot-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;
+  }
+  .spot-card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(17,60,105,.14)}
+  .spot-img{position:relative;aspect-ratio:4/3;overflow:hidden;background:#dfe9f2}
+  .spot-img img{width:100%;height:100%;object-fit:cover;display:block}
+  .spot-order{
+    position:absolute;left:12px;top:12px;width:30px;height:30px;border-radius:10px;
+    background:var(--day);color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 10px rgba(0,0,0,.22);
+  }
+  .spot-fee{
+    position:absolute;right:12px;top:12px;background:rgba(15,30,50,.72);color:#fff;
+    font-size:12px;padding:4px 10px;border-radius:999px;backdrop-filter:blur(4px);
+  }
+  .spot-body{padding:16px 18px 14px;display:flex;flex-direction:column;flex:1}
+  .spot-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+  .spot-meta span{font-size:12px;font-weight:600;border-radius:999px;padding:3px 10px}
+  .m-time{background:#e8f2fd;color:#1867b7}
+  .m-stay{background:#eef3f8;color:var(--muted)}
+  .spot-body h4{font-size:17.5px;font-weight:800;margin-bottom:6px}
+  .spot-desc{font-size:13.5px;color:#4c5f75;flex:1}
+  .spot-foot{
+    margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);font-size:12.5px;color:#0e7d5b;background:#f2fbf7;
+    border-radius:10px;padding:8px 10px;
+  }
+  .spot-actions{display:flex;gap:8px;margin-top:12px}
+  .spot-actions a{
+    flex:1;text-align:center;text-decoration:none;font-size:13px;font-weight:700;
+    padding:9px 6px;border-radius:11px;transition:all .15s;
+  }
+  .act-taxi{background:#0f6bb8;color:#fff;box-shadow:0 5px 14px rgba(15,107,184,.28)}
+  .act-taxi:hover{background:#0a5aa0}
+  .act-view{background:#eef4fa;color:#33506b;border:1px solid #d6e4f2}
+  .act-view:hover{background:#e2edf8}
+
+  .taxi-hop{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+    padding:0 6px;
+  }
+  .taxi-icon{font-size:24px}
+  .taxi-info{
+    text-align:center;background:#fff7e9;border:1px dashed #f2c076;border-radius:14px;padding:8px 4px;width:100%;
+  }
+  .taxi-info span{display:block;font-size:11.5px;color:#9a6b1f;line-height:1.5}
+  .taxi-info span b{color:#c47f18}
+  .taxi-arrow{font-size:18px;color:#e5a13c;animation:slide 1.4s ease infinite}
+  @keyframes slide{0%,100%{transform:translateX(-2px);opacity:.6}50%{transform:translateX(2px);opacity:1}}
+
+  /* ---------- 地图 ---------- */
+  .map-shell{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:16px;position:relative;
+  }
+  .map-controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+  .map-filter{
+    border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 16px;font-size:13.5px;
+    font-weight:600;cursor:pointer;color:var(--muted);transition:all .2s;
+  }
+  .map-filter.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .map-legend{margin-left:auto;display:flex;gap:12px;font-size:12.5px;color:var(--muted);flex-wrap:wrap}
+  .map-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;font-style:normal;vertical-align:middle}
+  #amap-container{
+    position:relative;height:520px;border-radius:14px;overflow:hidden;background:#e8eef4;
+  }
+  .map-fallback{
+    position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:10px;text-align:center;padding:26px;
+    background:
+      radial-gradient(600px 300px at 20% 15%,#dcecfb,transparent),
+      radial-gradient(500px 280px at 80% 85%,#d7ecdf,transparent),
+      linear-gradient(160deg,#eef4f9,#e7eef6);
+  }
+  .map-fallback h4{font-size:17px;font-weight:800;color:#27415e}
+  .map-fallback p{font-size:13.5px;color:#41597a78;max-width:520px;color:#41597a}
+  .map-fallback code{background:#e8eff7;padding:2px 7px;border-radius:6px;font-size:12.5px;color:#0f6bb8}
+  .map-fallback .fb-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+  .map-fallback .fb-btns a{
+    text-decoration:none;font-size:13px;font-weight:700;color:#fff;padding:9px 16px;border-radius:11px;
+    box-shadow:0 5px 14px rgba(17,60,105,.2);
+  }
+  .map-note{margin-top:12px;font-size:12.5px;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
+  .map-note .ic{flex-shrink:0}
+
+  /* 高德marker自定义样式 */
+  .amk{display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 3px 6px rgba(0,0,0,.3))}
+  .amk-badge{
+    width:30px;height:30px;border-radius:50% 50% 50% 6px;transform:rotate(-45deg);
+    background:var(--day);border:2px solid #fff;display:flex;align-items:center;justify-content:center;
+  }
+  .amk-badge b{transform:rotate(45deg);color:#fff;font-size:14px}
+  .amk-name{
+    margin-top:6px;background:rgba(255,255,255,.95);border-radius:8px;padding:2px 8px;font-size:12px;
+    font-weight:700;color:#27415e;white-space:nowrap;border:1px solid rgba(0,0,0,.06);
+  }
+
+  /* ---------- 贴士 ---------- */
+  .tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .tip-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:20px 22px;
+  }
+  .tip-card .ic{width:44px;height:44px;border-radius:14px;background:#eaf3fc;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px}
+  .tip-card h4{font-size:16px;font-weight:800;margin-bottom:6px}
+  .tip-card p{font-size:13.5px;color:#4c5f75}
+
+  footer{margin-top:70px;padding:30px 0 40px;text-align:center;color:var(--muted);font-size:13px}
+  footer .hr{width:60px;height:4px;border-radius:2px;background:var(--primary);opacity:.25;margin:0 auto 18px}
+
+  /* ---------- 响应式 ---------- */
+  @media (max-width:960px){
+    .weather-grid{grid-template-columns:1fr}
+    .tips-grid{grid-template-columns:repeat(2,1fr)}
+    .day-flow{grid-template-columns:1fr}
+    .taxi-hop{flex-direction:row;justify-content:flex-start;padding:12px 8px;gap:12px}
+    .taxi-icon{font-size:20px}
+    .taxi-info{display:flex;gap:14px;align-items:center;width:auto;padding:8px 14px}
+    .taxi-info span{display:inline}
+    .taxi-arrow{animation:none;transform:rotate(90deg)}
+  }
+  @media (max-width:620px){
+    .tips-grid{grid-template-columns:1fr}
+    .hero{min-height:420px}
+    #amap-container{height:420px}
+    .day-route-btn{width:100%;justify-content:center}
+    .nav-links a{padding:6px 8px;font-size:13px}
+    .map-legend{margin-left:0}
+  }
+</style>
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<nav class="topnav">
+  <div class="wrap">
+    <span class="nav-title">青岛 <i>3天周末游</i></span>
+    <div class="nav-links">
+      <a href="#weather">天气</a>
+      <a href="#itinerary">行程</a>
+      <a href="#map">地图</a>
+      <a href="#tips">贴士</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="wrap">
+    <span class="hero-kicker">周末 · 3天2晚 · 滨海漫步之旅</span>
+    <h1>红瓦绿树 · 碧海蓝天<br>青岛三天周末游</h1>
+    <p class="hero-dates">2026年11月28日（周六） — 11月30日（周一）</p>
+    <div class="hero-tags">
+      <span>📍 9 大景点</span>
+      <span>🚕 6 段打车接驳</span>
+      <span>🌤️ 天气与贴士</span>
+      <span>🗺️ 高德地图路线</span>
+    </div>
+  </div>
+</header>
+
+<!-- 天气 -->
+<section class="sec" id="weather">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>三天天气 · 出行参考</h2>
+      <p>数据来源 Open-Meteo · 更新于 2026-11-23（出发前请再次确认最新预报）</p>
+    </div>
+
+    <div class="weather-grid">
+      <div class="weather-card" style="--day:var(--day1)">
+        <div class="wc-top"><span class="wc-date">11月28日</span><span class="wc-daytag">周六 · Day 1</span></div>
+        <div class="wc-main"><span class="wc-icon">☀️</span><span class="wc-temp">3°C ~ 9°C</span></div>
+        <div class="wc-desc">晴 · 空气通透</div>
+        <ul class="wc-details">
+          <li>💧 降水概率 10%</li>
+          <li>💨 北风 4 级（海边体感风大）</li>
+          <li>🌅 日出 06:52 · 日落 16:42</li>
+        </ul>
+        <div class="wc-tip">晴天但寒冷，海鸥最活跃；栈桥上午光线好，注意防风保暖。</div>
+      </div>
+
+      <div class="weather-card" style="--day:var(--day2)">
+        <div class="wc-top"><span class="wc-date">11月29日</span><span class="wc-daytag">周日 · Day 2</span></div>
+        <div class="wc-main"><span class="wc-icon">🌫️</span><span class="wc-temp">3°C ~ 13°C</span></div>
+        <div class="wc-desc">早晨沿海有雾 · 午后转晴</div>
+        <ul class="wc-details">
+          <li>💧 降水概率 0%</li>
+          <li>💨 南风 4 级</li>
+          <li>🌅 日出 06:53 · 日落 16:41</li>
+        </ul>
+        <div class="wc-tip">上午海边或有雾气，不影响出行；午后雾散，奥帆中心傍晚看日落。</div>
+      </div>
+
+      <div class="weather-card" style="--day:var(--day3)">
+        <div class="wc-top"><span class="wc-date">11月30日</span><span class="wc-daytag">周一 · Day 3</span></div>
+        <div class="wc-main"><span class="wc-icon">🌤️</span><span class="wc-temp">10°C ~ 15°C</span></div>
+        <div class="wc-desc">晴间多云 · 温暖舒适</div>
+        <ul class="wc-details">
+          <li>💧 降水概率 0%</li>
+          <li>💨 东南风 3 级</li>
+          <li>🌅 日出 06:54 · 日落 16:41</li>
+        </ul>
+        <div class="wc-tip">三天中最舒适，适合登信号山俯瞰"红瓦绿树"，户外活动友好。</div>
+      </div>
+    </div>
+
+    <div class="weather-banner">
+      <span class="ic">🧣</span>
+      <p><b>穿衣建议：</b>11月末青岛海风较冷，建议羽绒服或厚外套 + 毛衣 + 围巾，内层可穿保暖内衣方便室内增减；海边风大帽子必备。<b>29日早晨沿海可能有雾</b>，海景照片建议安排在午后拍摄。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 行程 -->
+<section class="sec" id="itinerary">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>每日行程 · 每日3景点</h2>
+      <p>同一天景点之间均安排打车接驳 · 点击卡片按钮可唤起高德地图App导航</p>
+    </div>
+
+    <div class="day-tabs" id="day-tabs"></div>
+    <div id="day-plans"></div>
+  </div>
+</section>
+
+<!-- 地图 -->
+<section class="sec" id="map">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>旅行路线地图</h2>
+      <p>高德地图 JS API 自定义绘制 · 数字为到访顺序 · 点击地图标记可查看详情与打车入口</p>
+    </div>
+
+    <div class="map-shell">
+      <div class="map-controls">
+        <button class="map-filter active" data-filter="all">全部路线</button>
+        <button class="map-filter" data-filter="1" style="--day:var(--day1)">Day 1</button>
+        <button class="map-filter" data-filter="2" style="--day:var(--day2)">Day 2</button>
+        <button class="map-filter" data-filter="3" style="--day:var(--day3)">Day 3</button>
+        <div class="map-legend">
+          <span><i style="background:var(--day1)"></i>老城经典线</span>
+          <span><i style="background:var(--day2)"></i>滨海风光线</span>
+          <span><i style="background:var(--day3)"></i>人文体验线</span>
+        </div>
+      </div>
+
+      <div id="amap-container">
+        <div class="map-fallback" id="map-fallback" style="display:none">
+          <h4>🗺️ 嵌入式地图待配置高德 Key</h4>
+          <p>
+            本页使用高德地图 JS API 2.0 绘制行程路线。免费申请步骤：
+            ① 登录 <code>lbs.amap.com</code> → 控制台 → 创建应用；
+            ② 添加 Key，服务平台选择「Web端(JS API)」，同时获得安全密钥；
+            ③ 将两者填入本文件中的 <code>AMAP_KEY</code> 与 <code>AMAP_SECURITY_CODE</code> 后刷新页面。
+          </p>
+          <div class="fb-btns" id="fb-btns">
+            <a style="background:var(--day1)" target="_blank" data-fb="1">在App中看Day1路线</a>
+            <a style="background:var(--day2)" target="_blank" data-fb="2">在App中看Day2路线</a>
+            <a style="background:var(--day3)" target="_blank" data-fb="3">在App中看Day3路线</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="map-note">
+        <span class="ic">💡</span>
+        <span>地图中彩色实线为打车（驾车）实际路线；若驾车路线接口受限，将以虚线直线示意。
+        想把全天行程带进高德地图App，可点击上方「Day」筛选按钮右侧对应的
+        <b>在App中查看</b>（下方行程页头部按钮同样可用，无需配置Key）。</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 贴士 -->
+<section class="sec" id="tips">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>旅行小贴士</h2>
+      <p>来自本地人的实用建议，让旅程更从容</p>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="ic">🧥</div>
+        <h4>穿衣指南</h4>
+        <p>气温 3~15°C，海边体感更冷。羽绒服 + 毛衣 + 围巾是标配，白天太阳出来后可减一件；舒适防滑的鞋适合八大关与小麦岛步行。</p>
+      </div>
+      <div class="tip-card">
+        <div class="ic">🚕</div>
+        <h4>打车出行</h4>
+        <p>同一天景点间均为短途打车（1~4公里），市区起步价约 ¥10，单程约 ¥10~15。高峰期建议用高德/滴滴提前叫车，上车前留意车牌再上车。</p>
+      </div>
+      <div class="tip-card">
+        <div class="ic">🍜</div>
+        <h4>美食必吃</h4>
+        <p>鲅鱼水饺、辣炒蛤蜊、海菜凉粉、青岛原浆啤酒、崂山可乐配野馄饨。台东步行街、中山路劈柴院、大学路咖啡馆都值得专程一去。</p>
+      </div>
+      <div class="tip-card">
+        <div class="ic">🏨</div>
+        <h4>住宿建议</h4>
+        <p>推荐住在市南区栈桥-中山路一带（步行即达Day1景点），或香港中路-五四广场商圈（后两日行程更顺）。周末房源紧张，建议提前预订。</p>
+      </div>
+      <div class="tip-card">
+        <div class="ic">🌅</div>
+        <h4>观景时机</h4>
+        <p>冬季日落早（约16:42）。Day1 栈桥上午光线最佳；Day2 下午4点后在情人坝看日落；Day3 信号山15:00后光线柔和，红瓦屋顶最出片。</p>
+      </div>
+      <div class="tip-card">
+        <div class="ic">⚠️</div>
+        <h4>贴心提醒</h4>
+        <p>11月29日早晨沿海或有大雾，海景行程可灵活安排在午后；栈桥喂海鸥请用正规鸥粮；啤酒博物馆请提前线上购票并携带身份证。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="hr"></div>
+  <p>青岛3天周末游旅行攻略 · 2026.11.28 - 11.30</p>
+  <p style="margin-top:6px">天气数据：Open-Meteo（2026-11-23更新，出行前请复核） · 地图：高德开放平台</p>
+</footer>
+
+<script>
+/* =====================================================
+ * 高德地图配置（重要）
+ * 1. 访问 https://console.amap.com 免费注册并创建应用
+ * 2. 添加 Key：服务平台选择「Web端(JS API)」
+ * 3. 将 Key 填入下方 AMAP_KEY，安全密钥填入 AMAP_SECURITY_CODE
+ * 未配置时页面其余功能正常，地图区域会显示配置指引。
+ * ===================================================== */
+const AMAP_KEY = '高德key';  // 已从系统环境变量 AMAP_MAPS_API_KEY 注入
+const AMAP_SECURITY_CODE = '';  // TODO: 填入对应的安全密钥 securityJsCode
+
+/* ==================== 行程数据 ==================== */
+const DAYS = [
+  {
+    id: 1, color: '#2f80ed', theme: '老城经典线',
+    date: '11月28日 · 周六', summary: '栈桥喂海鸥 → 天主教堂 → 八大关落叶',
+    taxiTotal: '打车2段 · 共约4.4公里 · 约¥23',
+    spots: [
+      {
+        name: '栈桥 · 回澜阁', time: '09:00 - 11:00', fee: '免费', stay: '约2小时',
+        lng: 120.3185, lat: 36.0573,
+        img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Qingdao%20Zhanqiao%20Pier%2C%20long%20stone%20pier%20extending%20into%20blue%20sea%2C%20octagonal%20pavilion%2C%20seagulls%20flying%2C%20morning%20light%2C%20travel%20photography&image_size=landscape_4_3',
+        desc: '青岛的百年地标，长桥深入青岛湾，桥南端是双层飞檐的八角亭「回澜阁」。冬季成群海鸥翔集，是喂海鸥、拍海景的第一站。',
+        foot: '冬季海鸥成群，可在桥头买正规鸥粮投喂'
+      },
+      {
+        name: '圣弥厄尔天主教堂', time: '11:30 - 13:00', fee: '门票约¥10', stay: '约1.5小时',
+        lng: 120.3189, lat: 36.0656,
+        img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Qingdao%20St%20Michaels%20Cathedral%2C%20gothic%20twin%20tower%20church%2C%20red%20roof%20spires%2C%20European%20square%2C%20blue%20sky%2C%20travel%20photography&image_size=landscape_4_3',
+        desc: '1934年建成的哥特式双塔教堂，红色尖顶庄严浪漫，是青岛的婚纱照圣地。教堂前的广场喂鸽子、拍建筑都很出片。',
+        foot: '周边中山路午餐选择丰富，推荐劈柴院小吃'
+      },
+      {
+        name: '八大关风景区', time: '14:00 - 17:00', fee: '免费', stay: '约3小时',
+        lng: 120.3530, lat: 36.0548,
+        img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Qingdao%20Badaguan%20scenic%20area%2C%20historic%20European%20villas%2C%20tree%20lined%20street%2C%20golden%20autumn%20leaves%2C%20elegant%20architecture%2C%20travel%20photography&image_size=landscape_4_3',
+        desc: '人称「万国建筑博览会」，八条以关隘命名的道路纵横交错，200余栋欧式老别墅隐于林间。11月末银杏金黄，随手一拍即大片。',
+        foot: '花石楼（约¥8.5）值得入内；落叶季正字楼外墙最出片'
+      }
+    ],
+    taxis: [
+      { dist: '约1.0公里', dur: '约5分钟', cost: '约¥10' },
+      { dist: '约3.4公里', dur: '约12分钟', cost: '约¥13' }
+    ]
+  },
+  {
+    id: 2, color: '#f2994a', theme: '滨海风光线',
+    date: '11月29日 · 周日', summary: '小麦岛漫步 → 五四广场 → 奥帆中心看日落',
+    taxiTotal: '打车2段 · 共约5.3公里 · 约¥23',
+    spots: [
+      {
+        name: '小麦岛公园', time: '09:00 - 11:00', fee: '免费', stay: '约2小时',
+        lng: 120.4064, lat: 36.0453,
+        img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Qingdao%20Xiaomai%20Island%20seaside%20park%2C%20green%20grass%20by%20the%20blue%20ocean%2C%20coastal%20walking%20path%2C%20golden%20sunset%2C%20romantic%20travel%20photography&image_size=landscape_4_3',
+        desc: '三面环海的小众宝藏公园，大海、草甸与环岛步道交织，被称为「青岛小垦丁」。上午海风清爽，适合拍照与散步放空。',
+        foot: '环岛一圈约40分钟，海边风大注意保暖'
+      },
+      {
+        name: '五四广场', time: '11:30 - 13:30', fee: '免费', stay: '约2小时',
+        lng: 120.3827, lat: 36.0623,
+        img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Qingdao%20May%20Fourth%20Square%2C%20red%20spiral%20sculpture%2C%20seaside%20plaza%2C%20modern%20city%20skyline%2C%20blue%20sky%2C%20travel%20photography&image_size=landscape_4_3',
+        desc: '因「五四运动」得名，标志性雕塑「五月的风」如火炬般旋转升腾。广场紧邻浮山湾，海景开阔，周边商场林立方便午餐。',
+        foot: '周边商场多，午餐推荐就近解决'
+      },
+      {
+        name: '奥帆中心 · 情人坝', time: '14:00 - 17:00', fee: '免费', stay: '约3小时',
+        lng: 120.3905, lat: 36.0568,
+        img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Qingdao%20Olympic%20Sailing%20Center%2C%20marina%20with%20white%20sailboat%20masts%2C%20breakwater%20lighthouse%2C%20blue%20sea%2C%20travel%20photography&image_size=landscape_4_3',
+        desc: '2008年奥运会帆船比赛地，帆桅如林、海风习习。沿情人坝走到白色灯塔，16点后金色落日洒满海面，是全天最治愈的时刻。',
+        foot: '冬季日落约16:42，15:30后到坝上等日落'
+      }
+    ],
+    taxis: [
+      { dist: '约3.8公里', dur: '约15分钟', cost: '约¥13' },
+      { dist: '约1.5公里', dur: '约6分钟', cost: '约¥10' }
+    ]
+  },
+  {
+    id: 3, color: '#27ae60', theme: '人文体验线',
+    date: '11月30日 · 周一', summary: '啤酒博物馆 → 台东步行街 → 信号山全景收官',
+    taxiTotal: '打车2段 · 共约4.4公里 · 约¥23',
+    spots: [
+      {
+        name: '青岛啤酒博物馆', time: '09:00 - 11:00', fee: '门票约¥60', stay: '约2小时',
+        lng: 120.3709, lat: 36.0818,
+        img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Tsingtao%20Beer%20Museum%2C%20red%20brick%20industrial%20building%2C%20vintage%20brewery%20equipment%2C%20golden%20beer%20glass%2C%20travel%20photography&image_size=landscape_4_3',
+        desc: '设在青岛啤酒百年老厂房中，德式老设备、糖化车间与发酵工艺一路看下来，还能免费品尝原浆与纯生，微醺中读懂青岛。',
+        foot: '请提前线上购票并携带身份证；周末排队较久'
+      },
+      {
+        name: '台东步行街', time: '11:30 - 13:30', fee: '免费', stay: '约2小时',
+        lng: 120.3641, lat: 36.0867,
+        img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Qingdao%20Taidong%20pedestrian%20street%2C%20bustling%20shopping%20street%2C%20neon%20signs%2C%20food%20stalls%2C%20evening%20crowd%2C%20travel%20photography&image_size=landscape_4_3',
+        desc: '青岛人气最旺的商业街，小吃、海鲜排档与文创小店云集。午餐就交给这里——鲅鱼水饺、海菜凉粉、野馄饨一次吃个够。',
+        foot: '小吃推荐：鲅鱼水饺、海菜凉粉、袋装散啤'
+      },
+      {
+        name: '信号山公园', time: '14:00 - 16:30', fee: '门票约¥5', stay: '约2.5小时',
+        lng: 120.3263, lat: 36.0637,
+        img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Signal%20Hill%20Park%20Qingdao%2C%20hilltop%20view%20over%20red%20roofed%20buildings%20and%20blue%20sea%2C%20city%20panorama%2C%20soft%20afternoon%20light%2C%20travel%20photography&image_size=landscape_4_3',
+        desc: '海拔98米的老城制高点，三个蘑菇形旋转观景楼可360°俯瞰「红瓦绿树、碧海蓝天」的青岛全景，为这趟旅程画上完美句号。',
+        foot: '15:00后光线最柔和，红瓦屋顶层次分明'
+      }
+    ],
+    taxis: [
+      { dist: '约1.4公里', dur: '约6分钟', cost: '约¥10' },
+      { dist: '约3.0公里', dur: '约12分钟', cost: '约¥13' }
+    ]
+  }
+];
+
+/* ==================== 高德 URI 生成（无需Key，唤起App） ==================== */
+function navToSpot(spot) {
+  const q = `lng=${spot.lng}&lat=${spot.lat}`;
+  return `https://uri.amap.com/navigation?to=${spot.lng},${spot.lat},${encodeURIComponent(spot.name)}&mode=car&coordinate=gaode&src=travel_tips&callnative=1`;
+}
+function markerUri(spot) {
+  return `https://uri.amap.com/marker?position=${spot.lng},${spot.lat}&name=${encodeURIComponent(spot.name)}&src=travel_tips&coordinate=gaode&callnative=1`;
+}
+function navDayRoute(day) {
+  const s = day.spots;
+  return `https://uri.amap.com/navigation?from=${s[0].lng},${s[0].lat},${encodeURIComponent(s[0].name)}&via=${s[1].lng},${s[1].lat},${encodeURIComponent(s[1].name)}&to=${s[2].lng},${s[2].lat},${encodeURIComponent(s[2].name)}&mode=car&coordinate=gaode&src=travel_tips&callnative=1`;
+}
+
+/* ==================== 渲染行程 ==================== */
+(function renderItinerary() {
+  const tabsBox = document.getElementById('day-tabs');
+  const plansBox = document.getElementById('day-plans');
+
+  DAYS.forEach((d, di) => {
+    const tab = document.createElement('button');
+    tab.className = 'day-tab' + (di === 0 ? ' active' : '');
+    tab.style.setProperty('--day', d.color);
+    tab.dataset.day = d.id;
+    tab.innerHTML = `<span class="dot"></span>Day ${d.id} · ${d.date}`;
+    tab.addEventListener('click', () => switchDay(d.id));
+    tabsBox.appendChild(tab);
+
+    const plan = document.createElement('div');
+    plan.className = 'day-plan' + (di === 0 ? ' active' : '');
+    plan.dataset.day = d.id;
+
+    let flow = '';
+    d.spots.forEach((s, si) => {
+      if (si > 0) {
+        const t = d.taxis[si - 1];
+        flow += `
+        <div class="taxi-hop">
+          <span class="taxi-icon">🚕</span>
+          <div class="taxi-info">
+            <span>打车 <b>${t.dist}</b></span>
+            <span>${t.dur}</span>
+            <span>费用${t.cost}</span>
+          </div>
+          <span class="taxi-arrow">➤</span>
+        </div>`;
+      }
+      flow += `
+      <article class="spot-card">
+        <div class="spot-img">
+          <img src="${s.img}" alt="${s.name}" loading="lazy">
+          <span class="spot-order">${si + 1}</span>
+          <span class="spot-fee">${s.fee}</span>
+        </div>
+        <div class="spot-body">
+          <div class="spot-meta"><span class="m-time">🕘 ${s.time}</span><span class="m-stay">停留${s.stay}</span></div>
+          <h4>${s.name}</h4>
+          <p class="spot-desc">${s.desc}</p>
+          <div class="spot-foot">💡 ${s.foot}</div>
+          <div class="spot-actions">
+            <a class="act-taxi" target="_blank" href="${navToSpot(s)}">🚕 打车前往</a>
+            <a class="act-view" target="_blank" href="${markerUri(s)}">📍 地图查看</a>
+          </div>
+        </div>
+      </article>`;
+    });
+
+    plan.innerHTML = `
+      <header class="day-header" style="--day:${d.color}">
+        <div class="day-badge"><small>DAY</small><span>${d.id}</span></div>
+        <div class="day-title">
+          <h3>${d.theme}</h3>
+          <p>${d.date} · ${d.summary}</p>
+        </div>
+        <a class="day-route-btn" target="_blank" href="${navDayRoute(d)}">🗺️ 在高德地图App查看全天路线</a>
+      </header>
+      <div class="day-chips">
+        <span>🚕 ${d.taxiTotal}</span>
+        <span>🌤️ 建议 <b>${d.id === 2 ? '午后海边雾散更出片' : '按计划出行即可'}</b></span>
+      </div>
+      <div class="day-flow">${flow}</div>`;
+    plansBox.appendChild(plan);
+  });
+
+  function switchDay(id) {
+    document.querySelectorAll('.day-tab').forEach(t => t.classList.toggle('active', t.dataset.day == id));
+    document.querySelectorAll('.day-plan').forEach(p => p.classList.toggle('active', p.dataset.day == id));
+  }
+})();
+
+/* ==================== 高德地图 ==================== */
+let map = null;
+let mapReady = false;
+let infoWindow = null;
+
+function showFallback(reason) {
+  const fb = document.getElementById('map-fallback');
+  if (!fb) return;
+  const title = fb.querySelector('h4');
+  const p = fb.querySelector('p');
+  if (reason === 'key-error' && title && p) {
+    title.textContent = '🗺️ 地图加载失败，请检查高德 Key 配置';
+    p.innerHTML = 'Key 已配置但未能成功加载地图，常见原因：① Key 的服务平台不是「Web端(JS API)」；'
+      + '② 未配置安全密钥（2021-12-02 后申请的 Key 必须搭配 securityJsCode 使用，可在高德控制台对应 Key 详情中查看）；'
+      + '③ 本地预览域名不在 Key 的白名单内。修正后刷新页面即可，下方按钮仍可直接唤起高德地图App查看路线。';
+  } else if (reason === 'load-error' && title) {
+    title.textContent = '🗺️ 高德地图脚本加载失败';
+  }
+  fb.style.display = 'flex';
+}
+function hideFallback() {
+  const fb = document.getElementById('map-fallback');
+  if (fb) fb.style.display = 'none';
+}
+
+/* 兜底按钮的App路线链接（无需Key也可用） */
+DAYS.forEach(d => {
+  const link = document.querySelector(`.map-fallback a[data-fb="${d.id}"]`);
+  if (link) link.href = navDayRoute(d);
+});
+
+function initMap() {
+  try {
+    map = new AMap.Map('amap-container', {
+      zoom: 13,
+      center: [120.355, 36.062],
+      mapStyle: 'amap://styles/whitespirit',
+      viewMode: '2D'
+    });
+    map.on('complete', () => { mapReady = true; hideFallback(); });
+    map.on('error', () => { if (!mapReady) showFallback('key-error'); });
+    setTimeout(() => { if (!mapReady) showFallback('key-error'); }, 9000);
+
+    infoWindow = new AMap.InfoWindow({ offset: new AMap.Pixel(0, -34), anchor: 'bottom-center' });
+
+    /* 标记 */
+    DAYS.forEach(d => {
+      d.markers = d.spots.map((s, i) => {
+        const marker = new AMap.Marker({
+          position: [s.lng, s.lat],
+          offset: new AMap.Pixel(-15, -34),
+          content: `<div class="amk" style="--day:${d.color}"><div class="amk-badge"><b>${i + 1}</b></div><div class="amk-name">${s.name}</div></div>`,
+          title: s.name
+        });
+        marker.on('click', () => {
+          infoWindow.setContent(`
+            <div style="min-width:220px;padding:4px 2px;font-family:inherit">
+              <div style="font-weight:800;font-size:15px">${s.name}</div>
+              <div style="color:#5b6b80;font-size:12.5px;margin:4px 0 8px">Day ${d.id} · ${s.time} · ${s.fee}</div>
+              <div style="font-size:12.5px;color:#31506e;line-height:1.6;margin-bottom:8px">${s.desc}</div>
+              <a href="${navToSpot(s)}" target="_blank" style="display:inline-block;background:#0f6bb8;color:#fff;text-decoration:none;font-size:12.5px;font-weight:700;padding:6px 12px;border-radius:8px">🚕 打车前往</a>
+            </div>`);
+          infoWindow.open(map, marker.getPosition());
+        });
+        map.add(marker);
+        return marker;
+      });
+    });
+    const allMarkers = DAYS.reduce((a, d) => a.concat(d.markers), []);
+    if (allMarkers.length) map.setFitView(allMarkers, false, [70, 70, 70, 70]);
+
+    /* 打车（驾车）路线 */
+    AMap.plugin('AMap.Driving', () => {
+      DAYS.forEach(d => {
+        d.lines = [];
+        for (let i = 0; i < d.spots.length - 1; i++) {
+          drawTaxiRoute(d, d.spots[i], d.spots[i + 1]);
+        }
+      });
+    });
+
+    /* 日期筛选 */
+    document.querySelectorAll('.map-filter').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.map-filter').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.filter;
+        if (infoWindow) infoWindow.close();
+        DAYS.forEach(d => {
+          const show = (f === 'all' || f == d.id);
+          d.markers.forEach(m => (show ? m.show() : m.hide()));
+          (d.lines || []).forEach(l => (show ? l.show() : l.hide()));
+        });
+        if (mapReady && map) {
+          const targets = (f === 'all') ? allMarkers : DAYS.find(d => d.id == f).markers;
+          map.setFitView(targets, false, [70, 70, 70, 70]);
+        }
+      });
+    });
+  } catch (e) {
+    showFallback();
+  }
+}
+
+function drawTaxiRoute(day, from, to) {
+  const driving = new AMap.Driving({ policy: AMap.DrivingPolicy.LEAST_TIME });
+  driving.search([from.lng, from.lat], [to.lng, to.lat], (status, result) => {
+    let line;
+    if (status === 'complete' && result.routes && result.routes.length) {
+      const path = [];
+      try {
+        result.routes[0].steps.forEach(step => (step.path || []).forEach(p => {
+          const lng = Array.isArray(p) ? p[0] : p.lng;
+          const lat = Array.isArray(p) ? p[1] : p.lat;
+          if (lng && lat) path.push([lng, lat]);
+        }));
+      } catch (e) { /* ignore */ }
+      if (path.length >= 2) {
+        line = new AMap.Polyline({
+          path, strokeColor: day.color, strokeWeight: 6, strokeOpacity: 0.9,
+          lineJoin: 'round', lineCap: 'round', showDir: true, zIndex: 60
+        });
+      }
+    }
+    if (!line) { /* 接口受限时以虚线直线示意 */
+      line = new AMap.Polyline({
+        path: [[from.lng, from.lat], [to.lng, to.lat]],
+        strokeColor: day.color, strokeWeight: 4, strokeOpacity: 0.75,
+        strokeStyle: 'dashed', zIndex: 50
+      });
+    }
+    map.add(line);
+    day.lines.push(line);
+  });
+}
+
+function loadAMapScript() {
+  if (!AMAP_KEY) { showFallback(); return; }
+  if (AMAP_SECURITY_CODE) {
+    window._AMapSecurityConfig = { securityJsCode: AMAP_SECURITY_CODE };
+  }
+  const s = document.createElement('script');
+  s.src = `https://webapi.amap.com/maps?v=2.0&key=${encodeURIComponent(AMAP_KEY)}`;
+  s.onload = () => initMap();
+  s.onerror = () => showFallback('load-error');
+  document.head.appendChild(s);
+  setTimeout(() => { if (!window.AMap) showFallback('load-error'); }, 8000);
+}
+loadAMapScript();
+</script>
+</body>
+</html>
